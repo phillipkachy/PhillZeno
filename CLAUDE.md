@@ -82,7 +82,7 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 
 ## Status
 - [x] Phase 0 — project skeleton, machine checker, setup scripts, venv + requirements, git. **Waiting on owner's machine report.**
-- [~] Phase 1 — script helper built (`tools/SCRIPT_HELPER.md` rules, `templates/script_template.md`, `tools/script_check.py`). Doomsday research in `projects/avengers-doomsday/research.md`. **Waiting on owner's angle pick (CHECKPOINT 1).**
+- [~] Phase 1 — script helper built (`tools/SCRIPT_HELPER.md` rules, `templates/script_template.md`, `tools/script_check.py`). Doomsday research in `projects/avengers-doomsday/research.md`. Angle picked: #2 "The comic that explains Doomsday" (Hickman: New Avengers, Time Runs Out, Secret Wars 2015). Script drafted in `projects/avengers-doomsday/script.md` (1,404 words, ~9:22, 93 shots). **Waiting on owner approval (CHECKPOINT 1), then voiceover.**
 - [ ] Phase 2 — auto-editor
 - [ ] Phase 3 — packaging
 - [ ] Phase 4 — Shorts
