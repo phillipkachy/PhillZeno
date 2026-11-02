@@ -3,3 +3,5 @@
 # New packages get added here phase by phase, with a note on what they're for.
 
 pyyaml>=6.0        # reads config.yaml (the settings file you can tweak)
+pillow>=10.0      # reads image sizes (and later, image processing in the editor)
+ddgs>=9.0          # free image search for the Image Finder (no account, no key)

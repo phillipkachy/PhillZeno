@@ -36,5 +36,7 @@ python tools/script_check.py projects/<video-name>
 This prints the word count, estimated runtime, hook length, any paragraphs missing an image, and banned openers. It also writes **`shotlist.md`**: your numbered list of images to collect.
 
 ## Step 4: Collect images, then record
-- Save each image into `images/` named with its shot number: `001.jpg`, `002.png`, `003-doom-throne.jpg`, and so on. Anything after the number is ignored.
+- Run the **Image Finder**: `python tools/find_images.py projects/<video-name>`
+  A page opens in your browser. It searches each shot for you, and you **click the picture you like** to save it with the right number. It then jumps to the next shot. You can also copy any image and press Ctrl+V, or drag one in.
+- Or do it by hand: save each image into `images/` named with its shot number (`001.jpg`, `002.png`, `003-doom-throne.jpg`). Anything after the number is ignored. `001-2.jpg` means a second image for shot 001.
 - Record the voiceover by reading `script.md`, skipping the headings and the `[IMAGE]` lines. Save the recording in `voiceover/`.

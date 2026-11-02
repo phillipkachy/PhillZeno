@@ -51,6 +51,10 @@ Read this first every session. It's the full brief plus where we are. Keep it up
 - Paragraph text, then one or more `[IMAGE: desc]` / `[CLIP: desc]` lines. Cues are numbered 001, 002… in order; the owner saves files as `images/001*.jpg`, `clips/014*.mp4`.
 - `<!-- -->` comments and the SOURCES/NOTES/FACT CHECK sections are ignored.
 - `tools/script_check.py` has `parse_script()`. Reuse it in the auto-editor.
+- A shot can have several files: `001.jpg`, `001-2.jpg`… The auto-editor should cycle through all of them within that shot's time.
+
+## Image sourcing (owner decision, 2026-11-02)
+Collecting images by hand was the owner's biggest time sink, so they asked Claude to get them. Claude's cloud container can't reach image sites, and the files need to end up on the owner's PC anyway. Solution: `tools/find_images.py`, a local browser page. It runs free DuckDuckGo image search (the `ddgs` package) for each shot's `[IMAGE]` description, and the owner clicks to save. The owner still picks every image, which keeps hard rule 3 intact (no unsupervised bulk downloading). Search terms edited in the page are saved to `build/image_queries.json`. Never overwrites: a second pick saves as `NNN-2.ext`. Advise: prefer official stills and real comic panels, avoid watermarked fan art.
 - Pace assumption: 150 words/min (`--wpm` to override).
 - Research goes in `projects/<slug>/research.md` with CONFIRMED / REPORTED / THEORY / RUMOR labels.
 
@@ -78,6 +82,7 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 | One-time setup | `bash setup.sh` (Mac/Linux) or `setup.bat` (Windows) |
 | Check machine | `python tools/check_machine.py` |
 | Check a script + build shot list | `python tools/script_check.py projects/<slug>` |
+| Find & save images (browser page) | `python tools/find_images.py projects/<slug>` |
 | *(more tools added as phases complete)* | |
 
 ## Status

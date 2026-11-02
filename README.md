@@ -39,4 +39,12 @@ python tools/script_check.py projects/<video-name>
 ```
 That shows the word count and runtime, and writes **`shotlist.md`**, the numbered list of images you need to collect.
 
+### 2. Collect the images
+```
+python tools/find_images.py projects/<video-name>
+```
+A page opens in your browser with every shot from your shot list. It searches each one for you, and you **click the picture you want**. It's saved into `images/` with the right number, then the next shot loads. You can also copy any image from anywhere and press **Ctrl+V** (Mac: **Cmd+V**), or drag an image onto the page. The green bar shows how many you've done. Press Ctrl+C in the terminal when you're finished.
+
+Tips: pick big images (the size badge turns green at 1280 wide and up). Prefer official movie stills and real comic panels. Skip watermarked fan art, since artists can file claims.
+
 _(Coming next: one-command auto-editor, packaging, Shorts.)_
