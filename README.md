@@ -31,4 +31,12 @@ Plain-English guide. This fills in as each tool gets built.
 **Back up your media.** Videos, audio and images aren't saved in git (too big). Keep a copy on an external drive or a cloud folder.
 
 ## Making a video
-_(Coming in later phases: script helper, one-command auto-editor, packaging, Shorts.)_
+
+### 1. Write the script
+Follow **`tools/SCRIPT_HELPER.md`**. In short, ask Claude for a script on your topic, pick an angle, then check it:
+```
+python tools/script_check.py projects/<video-name>
+```
+That shows the word count and runtime, and writes **`shotlist.md`**, the numbered list of images you need to collect.
+
+_(Coming next: one-command auto-editor, packaging, Shorts.)_

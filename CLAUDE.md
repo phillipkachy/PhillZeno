@@ -46,10 +46,19 @@ Read this first every session. It's the full brief plus where we are. Keep it up
 - 2–3 takes per line, keep most expressive, review/re-roll step. Panels get Ken Burns timed to lines.
 - First test: 1–2 min Gambit & Rogue scene.
 
+## Script format (parsed by tools)
+- `## SECTION` headings (HOOK, SETUP, SEGMENT n: name, PAYOFF, OUTRO, SOURCES). Not spoken.
+- Paragraph text, then one or more `[IMAGE: desc]` / `[CLIP: desc]` lines. Cues are numbered 001, 002… in order; the owner saves files as `images/001*.jpg`, `clips/014*.mp4`.
+- `<!-- -->` comments and the SOURCES/NOTES/FACT CHECK sections are ignored.
+- `tools/script_check.py` has `parse_script()`. Reuse it in the auto-editor.
+- Pace assumption: 150 words/min (`--wpm` to override).
+- Research goes in `projects/<slug>/research.md` with CONFIRMED / REPORTED / THEORY / RUMOR labels.
+
 ## Folder layout
 ```
 phillzeno/
   CLAUDE.md, README.md, requirements.txt, setup.sh, setup.bat
+  templates/             script template
   inbox/                 raw drops (read-only)
   projects/<slug>/
     script.md
@@ -68,11 +77,12 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 |---|---|
 | One-time setup | `bash setup.sh` (Mac/Linux) or `setup.bat` (Windows) |
 | Check machine | `python tools/check_machine.py` |
+| Check a script + build shot list | `python tools/script_check.py projects/<slug>` |
 | *(more tools added as phases complete)* | |
 
 ## Status
 - [x] Phase 0 — project skeleton, machine checker, setup scripts, venv + requirements, git. **Waiting on owner's machine report.**
-- [ ] Phase 1 — script helper + Doomsday script
+- [~] Phase 1 — script helper built (`tools/SCRIPT_HELPER.md` rules, `templates/script_template.md`, `tools/script_check.py`). Doomsday research in `projects/avengers-doomsday/research.md`. **Waiting on owner's angle pick (CHECKPOINT 1).**
 - [ ] Phase 2 — auto-editor
 - [ ] Phase 3 — packaging
 - [ ] Phase 4 — Shorts
