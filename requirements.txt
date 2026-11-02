@@ -1,0 +1,5 @@
+# PhillZeno Python packages. All free and open source.
+# Installed automatically by setup.sh (Mac/Linux) or setup.bat (Windows).
+# New packages get added here phase by phase, with a note on what they're for.
+
+pyyaml>=6.0        # reads config.yaml (the settings file you can tweak)
