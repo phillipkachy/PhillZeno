@@ -88,12 +88,19 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 | Auto-pick all images, then review | `python tools/find_images.py projects/<slug> --auto` |
 | Install voice-clone add-on (asks first, ~4–7 GB) | `setup_voice.bat` / `bash setup_voice.sh` |
 | Narrate script in owner's cloned voice | `.venv-voice/bin/python tools/narrate.py projects/<slug> [--test] [--redo 3,12] [--engine turbo]` |
+| Auto-edit: quick preview | `python tools/make_video.py projects/<slug> --preview` |
+| Auto-edit: final 1080p | `python tools/make_video.py projects/<slug>` (`--fast`, `--burn`, `--seconds N`, `--whisper`) |
 | *(more tools added as phases complete)* | |
 
 ## Status
 - [x] Phase 0 — project skeleton, machine checker, setup scripts, venv + requirements, git. **Waiting on owner's machine report.**
 - [x] Phase 1 — script helper built (`tools/SCRIPT_HELPER.md` rules, `templates/script_template.md`, `tools/script_check.py`). Doomsday research in `projects/avengers-doomsday/research.md`. Angle picked: #2 "The comic that explains Doomsday" (Hickman: New Avengers, Time Runs Out, Secret Wars 2015). Script drafted in `projects/avengers-doomsday/script.md` (1,404 words, ~9:22, 93 shots). **Script APPROVED by owner 2026-11-03.** The owner asked Claude to try the voiceover: an AI test read was made with Kokoro (Apache 2.0, ~340 MB, CPU, voice `am_michael`, speed 1.1) in `projects/avengers-doomsday/build/ai_test_voice/` (full read, 8:38, plus hook samples in 5 voices). The Kokoro install lives only in the cloud scratchpad, not in the project. It's a test/fallback, not a replacement for the owner's own voice unless they decide so.
-- [ ] Phase 2 — auto-editor
+- [~] Phase 2 — auto-editor BUILT and tested in the cloud container with stand-in media (Kokoro AI voice, numbered test frames, a test clip, a test tone). **Waiting for CHECKPOINT 2: owner's real test (1 min of voice + a few images) once they're back at their PC.** Design notes:
+  - `tools/make_video.py` orchestrates; `tools/pzlib/` has `media.py` (ffmpeg, voice find/cleanup, two-pass loudnorm, music + sidechain ducking), `words.py` (faster-whisper transcription cached in build/, difflib alignment of script words to transcript, narration-timing fallback, SRT/ASS captions), `render.py` (PIL Ken Burns: crop-box per frame on a canvas (1+zoom)× frame size, blurred-bg for off-aspect images, clips decoded via ffmpeg pipe, optional crossfade, frames piped as raw RGB into one libx264 encode).
+  - Voice source: `voiceover/*` (several files joined in name order), else `build/narration/narration.wav` with `timing.json` (no Whisper needed).
+  - Timeline: each paragraph spans from its first word (minus 0.12 s) to the next paragraph's. Its cues split that time equally. Files per shot `NNN*.ext` split the shot's time. Holds over `max_seconds` get subdivided into extra moves/focus points and flagged. Missing shots reuse the previous image and are flagged.
+  - Tested: preview of the full 8:39 in ~1 min. 60 s at 1080p `--fast` ~1.4 min (4-core container). Loudness -14.3 LUFS. Alignment exact on a mangled fake transcript (85% match). Clip, blurred-bg, burned captions and fade all checked visually.
+  - NOT yet tested for real: the Whisper model itself (blocked in the container) and Windows paths.
 - [ ] Phase 3 — packaging
 - [ ] Phase 4 — Shorts
 - [ ] Phase 5 — comic audiobook pipeline

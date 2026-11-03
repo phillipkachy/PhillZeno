@@ -75,4 +75,26 @@ Tips: pick big images (the size badge turns green at 1280 wide and up). Prefer o
 
 Without a graphics card this is slow, roughly 30–90 minutes for a 10-minute video. Start it and walk away. If it stops, run it again and it continues where it left off.
 
-_(Coming next: one-command auto-editor, packaging, Shorts.)_
+### 4. Make the video
+Check the timing first with a quick low-quality **preview** (about 1–3 minutes):
+```
+python tools/make_video.py projects/<video-name> --preview
+```
+Open `output/<video-name>_preview.mp4` and `output/report.md`. The report lists missing pictures, pictures that stay on screen too long, and small or blurry ones. Fix what you want, then make the **final** 1080p video:
+```
+python tools/make_video.py projects/<video-name>
+```
+That takes a while on a normal computer (roughly 15–40 minutes for 10 minutes of video), so let it run. You get:
+- `output/<video-name>.mp4`: upload this
+- `output/<video-name>.srt`: upload as captions in YouTube Studio (Subtitles → Upload file)
+- `output/report.md`: what to fix next time
+
+Handy extras:
+- `--seconds 60`: only the first minute (quick test)
+- `--burn`: captions burned into the picture
+- `--fast`: full size, quicker but a bigger file
+- **Background music:** drop a free/royalty-free track in `assets/music/`. It's added quietly under your voice and dips while you talk.
+- **Video clips:** put them in `clips/` named with the shot number (`021.mp4`).
+- **Change the look** (zoom amount, picture timing, music volume, caption style) in `config.yaml`. Each setting is explained there.
+
+_(Coming next: packaging (titles, description, chapters), Shorts.)_

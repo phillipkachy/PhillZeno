@@ -1,0 +1,226 @@
+"""Word timing: transcribe the voice, line it up with script.md, build captions."""
+
+import difflib
+import hashlib
+import json
+import re
+from pathlib import Path
+
+from .media import EditorError
+
+
+def norm(w):
+    return re.sub(r"[^a-z0-9]", "", w.lower().replace("’", "'"))
+
+
+def script_words(paras):
+    """Every spoken word of the script, in order, with its paragraph index. Keeps real spelling."""
+    out = []
+    for pi, p in enumerate(paras):
+        for w in p["text"].split():
+            if norm(w):
+                out.append({"w": w, "n": norm(w), "para": pi})
+    return out
+
+
+# ------------------------------------------------------------------ transcription
+
+def transcribe(audio, cfg, cache_dir, prompt=""):
+    """Word-level transcript via faster-whisper (local, free). Cached by audio hash."""
+    tc = cfg["transcribe"]
+    h = hashlib.sha1(Path(audio).read_bytes()).hexdigest()[:12]
+    cache = Path(cache_dir) / f"transcript_{tc['model']}_{h}.json"
+    if cache.exists():
+        return json.loads(cache.read_text(encoding="utf-8"))
+    try:
+        from faster_whisper import WhisperModel
+    except ImportError:
+        raise EditorError("The transcriber isn't installed. Run setup again (setup.bat / bash setup.sh).")
+    try:
+        import ctranslate2
+        gpu = ctranslate2.get_cuda_device_count() > 0
+    except Exception:
+        gpu = False
+    print(f"  Transcribing with Whisper '{tc['model']}' on {'GPU' if gpu else 'CPU'} "
+          f"(the first time, it downloads the model)...")
+    try:
+        model = WhisperModel(tc["model"], device="cuda" if gpu else "cpu",
+                             compute_type="float16" if gpu else "int8")
+    except Exception as e:
+        raise EditorError(f"Couldn't load the Whisper model ({type(e).__name__}: {e}). "
+                          f"Check your internet for the first-time download.")
+    segments, info = model.transcribe(str(audio), language=tc.get("language", "en"), word_timestamps=True,
+                                      initial_prompt=prompt[:800] or None, vad_filter=True,
+                                      condition_on_previous_text=False)
+    words = []
+    for seg in segments:
+        for w in (seg.words or []):
+            words.append({"w": w.word.strip(), "start": round(w.start, 3), "end": round(w.end, 3)})
+        print(f"    ...{seg.end / 60:.1f} min", end="\r")
+    print()
+    cache.write_text(json.dumps(words), encoding="utf-8")
+    return words
+
+
+# ------------------------------------------------------------------ alignment
+
+def _fill_gaps(times, total):
+    """Linear-interpolate words that weren't matched, between their matched neighbours."""
+    n = len(times)
+    i = 0
+    while i < n:
+        if times[i] is not None:
+            i += 1
+            continue
+        j = i
+        while j < n and times[j] is None:
+            j += 1
+        left = times[i - 1][1] if i > 0 else 0.0
+        right = times[j][0] if j < n else total
+        step = max(right - left, 0) / (j - i)
+        for k in range(i, j):
+            s = left + step * (k - i)
+            times[k] = (s, s + step)
+        i = j
+    # keep it in order
+    last = 0.0
+    for k in range(n):
+        s, e = times[k]
+        s = max(s, last)
+        e = max(e, s + 0.05)
+        times[k] = (s, e)
+        last = s
+    return times
+
+
+def align(swords, transcript, total):
+    """Give every script word a (start, end) from the transcript. Returns match ratio 0-1."""
+    s_norm = [w["n"] for w in swords]
+    t_norm = [norm(w["w"]) for w in transcript]
+    sm = difflib.SequenceMatcher(None, s_norm, t_norm, autojunk=False)
+    times = [None] * len(swords)
+    matched = 0
+    for a, b, size in sm.get_matching_blocks():
+        for k in range(size):
+            t = transcript[b + k]
+            times[a + k] = (t["start"], t["end"])
+            matched += 1
+    _fill_gaps(times, total)
+    for w, (s, e) in zip(swords, times):
+        w["start"], w["end"] = round(s, 3), round(e, 3)
+    return matched / max(len(swords), 1)
+
+
+def from_narration_timing(swords, paras, timing):
+    """No transcriber needed: the cloned-voice tool recorded when each paragraph starts/ends.
+    Spread words inside a paragraph by length (punctuation gets a little extra time)."""
+    by_text = {}
+    for t in timing["paragraphs"]:
+        by_text.setdefault(t["text"], []).append(t)
+    spans = []
+    for p in paras:
+        lst = by_text.get(p["text"])
+        if not lst:
+            raise EditorError("The narration doesn't match script.md anymore (the script changed). "
+                              "Run tools/narrate.py again.")
+        spans.append(lst.pop(0))
+    for pi, span in enumerate(spans):
+        ws = [w for w in swords if w["para"] == pi]
+        weights = [len(w["n"]) + 2 + (3 if re.search(r"[.!?]$", w["w"]) else 2 if w["w"].endswith(",") else 0)
+                   for w in ws]
+        total_w = sum(weights) or 1
+        t = span["start"]
+        dur = span["end"] - span["start"]
+        for w, wt in zip(ws, weights):
+            d = dur * wt / total_w
+            w["start"], w["end"] = round(t, 3), round(t + d, 3)
+            t += d
+
+
+# ------------------------------------------------------------------ captions
+
+def _groups(words, max_chars=None, max_words=None, max_secs=4.0):
+    groups, cur = [], []
+    for w in words:
+        if cur:
+            text = " ".join(x["w"] for x in cur + [w])
+            too_long = (max_chars and len(text) > max_chars) or (max_words and len(cur) >= max_words)
+            if too_long or w["start"] - cur[0]["start"] > max_secs:
+                groups.append(cur)
+                cur = []
+        cur.append(w)
+        if re.search(r"[.!?]$", w["w"]) and len(" ".join(x["w"] for x in cur)) >= 12:
+            groups.append(cur)
+            cur = []
+    if cur:
+        groups.append(cur)
+    cues = []
+    for i, g in enumerate(groups):
+        start = g[0]["start"]
+        end = g[-1]["end"]
+        nxt = groups[i + 1][0]["start"] if i + 1 < len(groups) else end + 1
+        end = min(max(end, start + 0.8), nxt - 0.02)
+        cues.append((start, max(end, start + 0.3), " ".join(x["w"] for x in g)))
+    return cues
+
+
+def _srt_time(t):
+    ms = int(round(t * 1000))
+    h, ms = divmod(ms, 3600000)
+    m, ms = divmod(ms, 60000)
+    s, ms = divmod(ms, 1000)
+    return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
+
+
+def write_srt(words, path, max_chars=42):
+    cues = _groups(words, max_chars=max_chars)
+    lines = []
+    for i, (s, e, text) in enumerate(cues, 1):
+        lines += [str(i), f"{_srt_time(s)} --> {_srt_time(e)}", text, ""]
+    Path(path).write_text("\n".join(lines), encoding="utf-8")
+    return len(cues)
+
+
+def _ass_time(t):
+    cs = int(round(t * 100))
+    h, cs = divmod(cs, 360000)
+    m, cs = divmod(cs, 6000)
+    s, cs = divmod(cs, 100)
+    return f"{h}:{m:02d}:{s:02d}.{cs:02d}"
+
+
+def write_ass(words, path, cfg, width, height, max_words=None, uppercase=True):
+    c = cfg["captions"]
+    scale = height / 1080
+    if width < height:  # vertical (Shorts): bigger relative to width, higher up
+        scale = width / 1080 * 1.15
+    size = int(c.get("size", 66) * scale)
+    outline = max(1, int(c.get("outline", 5) * scale))
+    margin = int(c.get("bottom_margin", 90) * (height / 1080))
+    col = "&H00" + _bgr(c.get("color", "FFFFFF"))
+    ocol = "&H00" + _bgr(c.get("outline_color", "000000"))
+    head = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: {width}
+PlayResY: {height}
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,{c.get('font', 'Arial Black')},{size},{col},{col},{ocol},&H64000000,-1,0,0,0,100,100,0,0,1,{outline},{max(1, outline // 2)},2,60,60,{margin},1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+"""
+    rows = []
+    for s, e, text in _groups(words, max_words=max_words or c.get("burn_words", 5), max_chars=34):
+        text = text.upper() if uppercase else text
+        text = text.replace("{", "(").replace("}", ")")
+        rows.append(f"Dialogue: 0,{_ass_time(s)},{_ass_time(e)},Cap,,0,0,0,,{text}")
+    Path(path).write_text(head + "\n".join(rows) + "\n", encoding="utf-8")
+
+
+def _bgr(hexrgb):
+    h = str(hexrgb).lstrip("#").upper().rjust(6, "0")
+    return h[4:6] + h[2:4] + h[0:2]

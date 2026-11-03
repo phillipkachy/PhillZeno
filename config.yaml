@@ -1,0 +1,62 @@
+# PhillZeno auto-editor settings. Change a number, save, re-run. No code needed.
+# A project can override any of these with its own projects/<name>/config.yaml (same layout).
+
+video:
+  width: 1920
+  height: 1080
+  fps: 30
+  preset_final: medium     # slower = smaller file, same quality. Options: veryfast, fast, medium, slow
+  preset_test: veryfast    # used with --fast
+  crf: 18                  # quality: lower = better and bigger. 18 is visually lossless.
+  max_bitrate: 12M         # cap that keeps YouTube happy
+
+preview:                   # python tools/make_video.py <project> --preview
+  width: 640
+  height: 360
+  fps: 15
+
+images:
+  min_seconds: 4           # try not to change pictures faster than this
+  max_seconds: 8           # a picture held longer than this gets extra crops/moves, and is flagged
+  target_seconds: 6        # when splitting a long hold, aim for this length per move
+  fill: smart              # smart = crop to fill if close to 16:9, otherwise blurred background
+  blur_background_if_aspect_below: 1.45   # portrait/square pictures get the blurred-background look
+  blur_background_if_aspect_above: 2.3    # very wide banners too
+
+ken_burns:
+  zoom: 0.12               # how far it zooms/pans: 0.12 = 12%. Lower = calmer.
+  moves: [zoom_in, pan_right, zoom_out, pan_left, zoom_in, pan_up, zoom_out, pan_down]   # used in this order, repeating
+  ease: 0.35               # 0 = constant speed, 1 = smooth start/stop
+  transition: cut          # cut | fade
+  fade_seconds: 0.25
+
+audio:
+  denoise: true            # remove background hiss/hum from YOUR recordings (not used on AI narration)
+  denoise_strength: 12     # 6 = light, 12 = medium, 20 = strong (strong can sound watery)
+  compress: true           # evens out loud and quiet parts gently
+  trim_silence: true       # cut dead air at the very start and end
+  loudness: -14            # LUFS. YouTube's target is -14.
+  tail_seconds: 1.0        # picture keeps going this long after your last word
+
+music:
+  file: auto               # auto = first file in assets/music/. Or a file name. Or "none".
+  volume_db: -20           # music level under your voice. -16 louder, -24 quieter.
+  duck: true               # music dips automatically while you talk
+  fade_in: 1.5
+  fade_out: 4
+
+transcribe:
+  model: small             # tiny | base | small | medium (medium is ~1.5 GB and slower, more accurate)
+  language: en
+
+captions:
+  srt: true                # always make an .srt file for upload
+  burn: false              # burn captions INTO the video (long-form: off. Shorts: on)
+  max_chars: 42            # per line in the .srt
+  burn_words: 5            # words per burned-in caption
+  font: Arial Black        # any font installed, or put a .ttf/.otf in assets/fonts/
+  size: 66
+  color: "FFFFFF"          # white
+  outline_color: "000000"
+  outline: 5
+  bottom_margin: 90
