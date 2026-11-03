@@ -11,7 +11,7 @@ Read this first every session. It's the full brief plus where we are. Keep it up
 ## Hard rules (never break these)
 1. **Budget is $0.** Free, open-source, local tools only. No paid APIs, subscriptions or credits (including ElevenLabs, even though a connector exists in this environment). If something can't be done free, say so plainly and give the cheapest option.
 2. **Use the owner's images only.** Never generate placeholder graphics, title cards or AI art. Missing image means flag it in the report.
-3. **Never download copyrighted media** (comic scans, movie clips, trailers, fan art). The owner supplies all media. Web search is fine for *facts*, with sources cited.
+3. **Don't download copyrighted media on our own** (comic scans, movie clips, trailers, fan art). Web search is fine for *facts*, with sources cited. **Exception, owner-approved 2026-11-03:** stills for the shot list are fetched by `tools/find_images.py --auto` *on the owner's machine*, then the owner reviews every pick. Never fetch video clips or trailers. Never pick fan art on purpose.
 4. **Never delete or overwrite originals.** `inbox/`, `voiceover/`, `images/`, `clips/` are read-only to tools. All output goes to `build/` and `output/`.
 5. **Everything runs on the owner's computer.**
 6. **Ask before installing anything big** (over ~1 GB, e.g. voice models). State the size and purpose.
@@ -54,7 +54,9 @@ Read this first every session. It's the full brief plus where we are. Keep it up
 - A shot can have several files: `001.jpg`, `001-2.jpg`… The auto-editor should cycle through all of them within that shot's time.
 
 ## Image sourcing (owner decision, 2026-11-02)
-Collecting images by hand was the owner's biggest time sink, so they asked Claude to get them. Claude's cloud container can't reach image sites, and the files need to end up on the owner's PC anyway. Solution: `tools/find_images.py`, a local browser page. It runs free DuckDuckGo image search (the `ddgs` package) for each shot's `[IMAGE]` description, and the owner clicks to save. The owner still picks every image, which keeps hard rule 3 intact (no unsupervised bulk downloading). Search terms edited in the page are saved to `build/image_queries.json`. Never overwrites: a second pick saves as `NNN-2.ext`. Advise: prefer official stills and real comic panels, avoid watermarked fan art.
+Collecting images by hand was the owner's biggest time sink, so they asked Claude to get them. Claude's cloud container can't reach image sites, and the files need to end up on the owner's PC anyway. Solution: `tools/find_images.py`, a local browser page. It runs free DuckDuckGo image search (the `ddgs` package) for each shot's `[IMAGE]` description, and the owner clicks to save.
+- **`--auto` (owner asked for it 2026-11-03):** an automatic first pass. For each empty shot it scores the results (prefers ≥1280 px, roughly 16:9, higher rank; skips fan-art, stock and merch domains and title words like "fan art", "cosplay", "toy") and saves the best one that downloads and is ≥800 px wide. Then the page opens in review mode: yellow dot = auto pick, with Keep / Reject / click-to-swap. Reject or swap moves the auto file to `build/rejected_auto/`; tool-made files only, never the owner's own picks. Every pick's source URL is logged in `build/image_sources.json`, which is useful for credits and for the report.
+- The real search can't be tested from the cloud container (image sites are blocked there). The logic was tested with mocked search results. Search terms edited in the page are saved to `build/image_queries.json`. Never overwrites: a second pick saves as `NNN-2.ext`. Advise: prefer official stills and real comic panels, avoid watermarked fan art.
 - Pace assumption: 150 words/min (`--wpm` to override).
 - Research goes in `projects/<slug>/research.md` with CONFIRMED / REPORTED / THEORY / RUMOR labels.
 
@@ -83,6 +85,7 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 | Check machine | `python tools/check_machine.py` |
 | Check a script + build shot list | `python tools/script_check.py projects/<slug>` |
 | Find & save images (browser page) | `python tools/find_images.py projects/<slug>` |
+| Auto-pick all images, then review | `python tools/find_images.py projects/<slug> --auto` |
 | *(more tools added as phases complete)* | |
 
 ## Status

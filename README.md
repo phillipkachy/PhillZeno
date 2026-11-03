@@ -40,6 +40,16 @@ python tools/script_check.py projects/<video-name>
 That shows the word count and runtime, and writes **`shotlist.md`**, the numbered list of images you need to collect.
 
 ### 2. Collect the images
+**Fastest: let it pick everything, then review.**
+```
+python tools/find_images.py projects/<video-name> --auto
+```
+It goes through every empty shot, picks the best big, wide picture it can find and saves it. That takes a few seconds per shot, so leave it running. Then the page opens in **review mode**. Each auto pick has a yellow dot:
+- Looks good? Click **✓ Keep**.
+- Wrong picture? **Click a better one** in the grid to swap it, or press **✗ Reject**.
+- Shots it couldn't fill are listed in the terminal. Do those by hand on the same page.
+
+**By hand, one at a time:**
 ```
 python tools/find_images.py projects/<video-name>
 ```
