@@ -1,0 +1,76 @@
+# Packaging for "The Comic That Explains Avengers: Doomsday".
+# Edit anything, then run:  python tools/package.py projects/avengers-doomsday
+# Titles were scored with the title checker (length, mobile cut-off, concrete number/name).
+
+titles:
+  - text: "The 2015 Comic That Explains Avengers: Doomsday"
+    best: true
+    why: "Search-friendly (people type 'avengers doomsday explained'), the year makes it concrete. Score 94. Pairs with thumbnail 1."
+  - text: "Doomsday Is Pulling From This 2015 Comic"
+    why: "Shortest and punchiest, score 100. Matches Feige's 'Secret Wars, kinda', so it doesn't overclaim."
+  - text: "The 2015 Story Behind RDJ's Doctor Doom"
+    why: "Score 100. Rides the RDJ-as-Doom curiosity. Best with thumbnail 2."
+  - text: "Doctor Doom Killed the Gods. Is Doomsday Next?"
+    why: "Most dramatic, and the hook pays it off. Score 80: no number. A question, so it doesn't claim the movie adapts it."
+  - text: "Why the Avengers Mind-Wiped Captain America (2015)"
+    why: "Pure curiosity from Segment 2. Good as an A/B test title later, weaker for search."
+
+thumbnails:
+  - text: "GOD EMPEROR DOOM"
+    pairs_with: "The 2015 Comic That Explains Avengers: Doomsday"
+    image: "God Emperor Doom on his throne (Secret Wars 2015 art) on the left 60%, dark background, text stacked on the right."
+    notes: "Bright yellow or white text with a thick black outline. Doom's green and gold pop on dark red or black. Keep his face/mask big: it has to read at phone size."
+  - text: "STOLEN LIVES"
+    pairs_with: "The 2015 Story Behind RDJ's Doctor Doom"
+    image: "Close-up of RDJ's Doom from the D23 trailer, half the frame. Battleworld or a cracked-Earth comic panel behind."
+    notes: "The quote from the trailer makes people wonder what it means. Keep the face lit; darken the background."
+  - text: "HE KILLED GODS"
+    pairs_with: "Doomsday Is Pulling From This 2015 Comic"
+    image: "Comic Doom glowing with cosmic power, small Beyonder figures falling behind him."
+    notes: "Most shocking option. True to the comic (he kills the Beyonders), and the hook says it straight away, so it's not clickbait."
+
+chapters:          # script section  ->  chapter name on YouTube
+  HOOK: "Doom becomes a god"
+  SETUP: "The comic behind Doomsday"
+  SEGMENT 1: "Incursions explained"
+  SEGMENT 2: "The Illuminati's worst decision"
+  SEGMENT 3: "Time Runs Out: Doom kills the Beyonders"
+  SEGMENT 4: "God Emperor Doom and Battleworld"
+  PAYOFF: "Reed vs. Doom: how it ends"
+  OUTRO: "What to read before December 18"
+
+description:
+  hook: |
+    In the comics, Doctor Doom kills the gods and rebuilds reality as God Emperor.
+    And Avengers: Doomsday is pulling from that exact story. Here's the whole thing before December 18.
+  summary: |
+    Everyone's talking about the Doomsday cast, but almost nobody's talking about the comic Marvel is actually drawing from. Kevin Feige pointed at Secret Wars ("kinda"), and the real story starts in Jonathan Hickman's New Avengers and Time Runs Out. I walk you through Incursions, the Illuminati's worst decision, how Doom killed the Beyonders and became God Emperor of Battleworld, and the Reed vs. Doom ending. Then I connect it to the trailer: the Sentinels, "stolen lives", and why RDJ wearing Doom's mask might be the whole point.
+
+    Want to read it first? Hickman's New Avengers (2013) → Avengers: Time Runs Out → Secret Wars (2015).
+
+    Theories in this video are clearly marked as theories. Nothing here is a leak.
+  extra: |
+    What's your theory: is Doom a Tony Stark variant or something else? Let me know in the comments.
+
+hashtags: [AvengersDoomsday, SecretWars, DoctorDoom]
+
+tags:
+  - avengers doomsday
+  - avengers doomsday explained
+  - secret wars comic explained
+  - secret wars 2015
+  - doctor doom
+  - god emperor doom
+  - rdj doctor doom
+  - avengers doomsday trailer breakdown
+  - time runs out
+  - jonathan hickman avengers
+  - marvel incursions explained
+  - illuminati marvel
+  - battleworld
+  - avengers secret wars
+
+include_sources: true   # adds the fact-check links from script.md to the description
+
+pinned_comment: |
+  Real talk: is RDJ's Doom a Tony Stark variant, or something way weirder? 👇 Drop your theory. I read every one.

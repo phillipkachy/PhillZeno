@@ -276,6 +276,15 @@ def main():
                 f"picture timing may drift. Make script.md match what you actually said and re-run.")
         (build / "aligned_words.json").write_text(json.dumps(swords), encoding="utf-8")
     total = vdur + cfg["audio"]["tail_seconds"]
+    if not args.seconds:  # section start times, for chapters (tools/package.py)
+        sections = []
+        for pi, p in enumerate(paras):
+            if not sections or sections[-1]["section"] != p["section"]:
+                first = next((w["start"] for w in swords if w["para"] == pi), None)
+                if first is not None:
+                    sections.append({"section": p["section"], "start": 0.0 if not sections else round(first, 2)})
+        (build / "section_times.json").write_text(json.dumps({"total": round(total, 2), "sections": sections},
+                                                             indent=1), encoding="utf-8")
     if args.seconds:
         total = min(total, args.seconds)
         swords = [w for w in swords if w["start"] < total]

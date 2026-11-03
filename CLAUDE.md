@@ -90,6 +90,8 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 | Narrate script in owner's cloned voice | `.venv-voice/bin/python tools/narrate.py projects/<slug> [--test] [--redo 3,12] [--engine turbo]` |
 | Auto-edit: quick preview | `python tools/make_video.py projects/<slug> --preview` |
 | Auto-edit: final 1080p | `python tools/make_video.py projects/<slug>` (`--fast`, `--burn`, `--seconds N`, `--whisper`) |
+| Upload pack (titles, description+chapters, tags) | `python tools/package.py projects/<slug>` (needs `packaging.yaml`) |
+| Thumbnail text on owner's image | `python tools/thumbnail.py projects/<slug> <image> "TEXT" [--side --color --size]` |
 | *(more tools added as phases complete)* | |
 
 ## Status
@@ -101,10 +103,13 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
   - Timeline: each paragraph spans from its first word (minus 0.12 s) to the next paragraph's. Its cues split that time equally. Files per shot `NNN*.ext` split the shot's time. Holds over `max_seconds` get subdivided into extra moves/focus points and flagged. Missing shots reuse the previous image and are flagged.
   - Tested: preview of the full 8:39 in ~1 min. 60 s at 1080p `--fast` ~1.4 min (4-core container). Loudness -14.3 LUFS. Alignment exact on a mangled fake transcript (85% match). Clip, blurred-bg, burned captions and fade all checked visually.
   - NOT yet tested for real: the Whisper model itself (blocked in the container) and Windows paths.
-- [ ] Phase 3 — packaging
+- [x] Phase 3 — packaging. Claude writes `projects/<slug>/packaging.yaml` in-session (titles scored with the yt-package title linter: ≤60 chars, has a number/name, thumbnail text ≤3 words and doesn't repeat the title). `tools/package.py` assembles and validates: chapters from `build/section_times.json` (written by make_video on full renders), else estimated from the script. YouTube rules: 0:00 first, ≥3 chapters, ≥10 s each. Description ≤5000 chars, no angle brackets, hashtags ≤15, tags ≤500 chars. Source links are pulled from script.md. Output: `output/upload.md` + description/tags/pinned_comment txt. `tools/thumbnail.py`: owner's image → 1280x720 with outlined text (font from assets/fonts or a system bold font), never overwrites. Doomsday `packaging.yaml` is written (best pairing: "The 2015 Comic That Explains Avengers: Doomsday" + "GOD EMPEROR DOOM").
 - [ ] Phase 4 — Shorts
 - [ ] Phase 5 — comic audiobook pipeline
 - [ ] Phase 6 — README guide + new_project.py
+
+## Phill's on-camera voice
+`templates/PHILL_VOICE.md` is a voice profile built from his own videos (Damian Wayne, Nightwing). Use it for every script and all packaging copy. Key points: fan-to-friend, honest about bias, numbered "reason number X" structure for opinion videos. His usual outro is "If you watched all the way through, I really appreciate it. Give it a like, subscribe…". Lane: DCU/MCU speculation plus evergreen debates. His past videos ran 4–11 min, and the channels he models run 12–20.
 
 ## Owner's machine
 _Unknown yet. Paste output of `tools/check_machine.py` here._

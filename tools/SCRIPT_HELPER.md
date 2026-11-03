@@ -25,7 +25,7 @@ Claude follows the rules below every time.
    - **OUTRO**: short, with **one** call to action.
 4. **Length:** 1,400–1,500 spoken words, which is about 10 minutes.
 5. **Visual cues:** one or more `[IMAGE: description]` lines under every paragraph. Aim for roughly one image per 4–8 seconds, which is about one per 12–20 words. Use `[CLIP: description]` where a video clip fits better.
-6. **Voice:** write it the way Phill talks. Casual, hyped, fan-to-fan, with short punchy sentences that are easy to read aloud. Use contractions, avoid tongue-twisters, and keep sentences under about 20 words.
+6. **Voice:** read `templates/PHILL_VOICE.md` first (Phill's voice profile, built from his own videos). write it the way Phill talks. Casual, hyped, fan-to-fan, with short punchy sentences that are easy to read aloud. Use contractions, avoid tongue-twisters, and keep sentences under about 20 words.
 7. **Fact check:** every factual claim goes in `## SOURCES` with a link. Rumors are labeled as rumors **in the script itself** too ("rumor has it…", "reportedly…").
 8. **No copyrighted downloads.** Image cues describe what Phill should find. Claude never fetches the images.
 

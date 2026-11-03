@@ -97,4 +97,17 @@ Handy extras:
 - **Video clips:** put them in `clips/` named with the shot number (`021.mp4`).
 - **Change the look** (zoom amount, picture timing, music volume, caption style) in `config.yaml`. Each setting is explained there.
 
-_(Coming next: packaging (titles, description, chapters), Shorts.)_
+### 5. Package it (titles, thumbnail, description, tags)
+Ask Claude to write `packaging.yaml` for the video. It includes 5 titles, 3 thumbnail ideas, chapter names, the description, tags and a pinned comment. Then run:
+```
+python tools/package.py projects/<video-name>
+```
+Open **`output/upload.md`**. It has every YouTube Studio field in order, ready to copy, with chapter times taken from the real video. (Run it after the final render; before that, the times are estimates.)
+
+**Thumbnail text (optional):** make your thumbnail picture, then add the text in the same bold style every time:
+```
+python tools/thumbnail.py projects/<video-name> my_picture.jpg "GOD EMPEROR DOOM"
+```
+Options: `--side left/right/top/bottom`, `--color yellow/white/red`, `--size 1.2`. Put your channel font (.ttf) in `assets/fonts/` and it's used automatically.
+
+_(Coming next: Shorts.)_
