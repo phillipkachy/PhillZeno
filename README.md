@@ -57,4 +57,22 @@ A page opens in your browser with every shot from your shot list. It searches ea
 
 Tips: pick big images (the size badge turns green at 1280 wide and up). Prefer official movie stills and real comic panels. Skip watermarked fan art, since artists can file claims.
 
+### 3. The voiceover: record it, or use your voice clone
+**Option A: record it yourself.** Read `script.md` (skip the headings and `[IMAGE]` lines) and save the file in `voiceover/`.
+
+**Option B: your AI voice clone.** Set it up once, and every script after that is narrated in your voice automatically.
+1. Install the voice add-on (big: it asks before installing and shows the size):
+   - Windows: double-click `setup_voice.bat`
+   - Mac: `bash setup_voice.sh`
+2. Record a 15–20 second sample in your hyped YouTube voice. Follow `voices/phill/README.md` and save it as `voices/phill/sample.m4a`.
+3. Test it on the first minute:
+   - Windows: `.venv-voice\Scripts\python tools\narrate.py projects\<video-name> --test`
+   - Mac: `.venv-voice/bin/python tools/narrate.py projects/<video-name> --test`
+4. Listen to `build/narration/narration.mp3`. Happy? Run the same command **without** `--test` for the whole script.
+5. A line sounds off? Find its number in `build/narration/paragraphs.md`, then add `--redo 12` (or `--redo 3,12,15`) to the command. Only those lines are redone.
+6. A word said wrong? Add it to `voices/pronunciations.yaml` (for example `Doomstadt: Doom-shtat`), then redo that paragraph.
+7. Too calm or too much? Change `exaggeration` in `voices/phill/profile.yaml`: 0.5 is normal, 0.7 is hyped.
+
+Without a graphics card this is slow, roughly 30–90 minutes for a 10-minute video. Start it and walk away. If it stops, run it again and it continues where it left off.
+
 _(Coming next: one-command auto-editor, packaging, Shorts.)_

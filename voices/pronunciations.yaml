@@ -1,0 +1,13 @@
+# How AI voices should SAY tricky words. Left = as written in the script, right = how to say it.
+# Only affects the AI voice. Captions and the script keep the real spelling.
+# Add any word it gets wrong, then re-run with --redo for those paragraphs.
+
+Doomstadt: Doom-shtat
+Hickman: Hick-man
+Valeria: Vah-leer-ee-ah
+Illuminati: Ill-oo-min-ah-tee
+Clea: Clay-ah
+Latveria: Lat-veer-ee-ah
+chère: shair
+MCU: M C U
+D23: D twenty-three

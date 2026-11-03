@@ -1,5 +1,6 @@
 # Python environment and caches
 .venv/
+.venv-voice/
 __pycache__/
 *.pyc
 
@@ -25,6 +26,11 @@ assets/branding/*
 !assets/*/.gitkeep
 voices/**/*.wav
 voices/**/*.mp3
+voices/**/*.m4a
+voices/**/*.aac
+voices/**/*.ogg
+voices/**/*.flac
+voices/**/*.webm
 
 # Downloaded AI models
 models/

@@ -86,6 +86,8 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 | Check a script + build shot list | `python tools/script_check.py projects/<slug>` |
 | Find & save images (browser page) | `python tools/find_images.py projects/<slug>` |
 | Auto-pick all images, then review | `python tools/find_images.py projects/<slug> --auto` |
+| Install voice-clone add-on (asks first, ~4–7 GB) | `setup_voice.bat` / `bash setup_voice.sh` |
+| Narrate script in owner's cloned voice | `.venv-voice/bin/python tools/narrate.py projects/<slug> [--test] [--redo 3,12] [--engine turbo]` |
 | *(more tools added as phases complete)* | |
 
 ## Status
@@ -99,6 +101,17 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 
 ## Owner's machine
 _Unknown yet. Paste output of `tools/check_machine.py` here._
+
+## Owner's cloned narration voice (decided 2026-11-03)
+The owner wants narration in a **clone of their own voice**.
+- Engine: **Chatterbox** (`chatterbox-tts==0.1.7`, MIT). `standard` has `exaggeration`/`cfg_weight` emotion control; `turbo` is faster but ignores them. Outputs carry Resemble's inaudible Perth AI watermark. Keep it.
+- Lives in a **separate venv `.venv-voice`** (pins torch 2.6, transformers 5.2) so it can't break the main tools. Installed by `setup_voice.bat/.sh`, which states the size and asks y/N. It picks CUDA (cu124) or CPU torch wheels.
+- Model weights come from Hugging Face on first run (~3 GB standard, ~2 GB turbo). HF is **blocked in the cloud container**, so real generation has only ever run on the owner's PC. The pipeline was tested with `PHILLZENO_FAKE_TTS=1` (beeps).
+- Owner's sample: `voices/phill/sample.*` (original, never modified). Cleaned copy: `voices/phill/reference_sample.wav`. Chatterbox uses only the **first ~10 s**, so the sample's energy is the voice's energy.
+- Settings: `voices/phill/profile.yaml` (per-section overrides, speed, pauses). Pronunciation respellings: `voices/pronunciations.yaml` (spoken audio only).
+- Output: `build/narration/narration.wav` (+ mp3), `timing.json` (exact paragraph start/end; the auto-editor can use this instead of Whisper alignment), `paragraphs.md` (numbers for `--redo`). Chunks cached by hash in `build/narration/chunks/`, so it resumes after a crash, and `--redo N` changes the seed for a new take.
+- The auto-editor should take `voiceover/*` if present, else `build/narration/narration.wav`.
+- YouTube: tick "altered or synthetic content" when uploading AI-voiced videos, to be safe.
 
 ## Voice model shortlist (preliminary; full research in Phase 5)
 Licenses must allow commercial use (monetized channel). Verify current status before recommending.

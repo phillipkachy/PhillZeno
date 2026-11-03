@@ -1,0 +1,8 @@
+# Voice cloning add-on (optional, BIG). Installed by setup_voice.bat / setup_voice.sh
+# into its own folder (.venv-voice) so it can never break the main tools.
+# Chatterbox by Resemble AI: MIT license, commercial use allowed.
+# Its audio carries an inaudible "Perth" watermark marking it as AI-generated. Leave it in.
+
+chatterbox-tts==0.1.7
+soundfile>=0.12
+pyyaml>=6.0

@@ -1,0 +1,32 @@
+# Settings for YOUR cloned narration voice. Change the numbers, save, re-run. No code needed.
+
+name: Phill
+sample: sample            # the file in this folder (any extension: sample.m4a, sample.wav ...)
+
+# engine:
+#   standard = has the emotion dial below. Slower. Best quality.  <- start here
+#   turbo    = roughly 3-5x faster, but ignores the emotion dial
+engine: standard
+
+# Emotion dial (standard engine only). 0.3 = calm, 0.5 = normal, 0.7 = hyped, 0.9+ = over the top
+exaggeration: 0.6
+
+# Pacing/steadiness (standard engine only). Lower = slower, more deliberate delivery.
+# Tip from the model's makers: with high exaggeration, drop this to about 0.3.
+cfg_weight: 0.4
+
+# Speed up or slow down the final read (1.0 = as generated, 1.08 = 8% faster)
+speed: 1.0
+
+# Pauses (seconds)
+pause_sentence: 0.15      # between chunks inside a paragraph
+pause_paragraph: 0.35
+pause_section: 0.7        # when a new ## section starts
+
+# Per-section overrides. Section names are matched by their start (SEGMENT matches all segments).
+sections:
+  HOOK:   {exaggeration: 0.75, cfg_weight: 0.3}
+  PAYOFF: {exaggeration: 0.7,  cfg_weight: 0.35}
+  OUTRO:  {exaggeration: 0.55}
+  # Example of a different sample for one section (record voices/phill/sample_serious.m4a first):
+  # "SEGMENT 2": {sample: sample_serious, exaggeration: 0.45}
