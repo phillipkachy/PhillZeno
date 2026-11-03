@@ -90,7 +90,7 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 
 ## Status
 - [x] Phase 0 — project skeleton, machine checker, setup scripts, venv + requirements, git. **Waiting on owner's machine report.**
-- [~] Phase 1 — script helper built (`tools/SCRIPT_HELPER.md` rules, `templates/script_template.md`, `tools/script_check.py`). Doomsday research in `projects/avengers-doomsday/research.md`. Angle picked: #2 "The comic that explains Doomsday" (Hickman: New Avengers, Time Runs Out, Secret Wars 2015). Script drafted in `projects/avengers-doomsday/script.md` (1,404 words, ~9:22, 93 shots). **Waiting on owner approval (CHECKPOINT 1), then voiceover.**
+- [x] Phase 1 — script helper built (`tools/SCRIPT_HELPER.md` rules, `templates/script_template.md`, `tools/script_check.py`). Doomsday research in `projects/avengers-doomsday/research.md`. Angle picked: #2 "The comic that explains Doomsday" (Hickman: New Avengers, Time Runs Out, Secret Wars 2015). Script drafted in `projects/avengers-doomsday/script.md` (1,404 words, ~9:22, 93 shots). **Script APPROVED by owner 2026-11-03.** The owner asked Claude to try the voiceover: an AI test read was made with Kokoro (Apache 2.0, ~340 MB, CPU, voice `am_michael`, speed 1.1) in `projects/avengers-doomsday/build/ai_test_voice/` (full read, 8:38, plus hook samples in 5 voices). The Kokoro install lives only in the cloud scratchpad, not in the project. It's a test/fallback, not a replacement for the owner's own voice unless they decide so.
 - [ ] Phase 2 — auto-editor
 - [ ] Phase 3 — packaging
 - [ ] Phase 4 — Shorts
