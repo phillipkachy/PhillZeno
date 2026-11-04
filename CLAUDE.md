@@ -93,6 +93,7 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 | Auto-edit: final 1080p | `python tools/make_video.py projects/<slug>` (`--fast`, `--burn`, `--seconds N`, `--whisper`) |
 | Upload pack (titles, description+chapters, tags) | `python tools/package.py projects/<slug>` (needs `packaging.yaml`) |
 | Thumbnail text on owner's image | `python tools/thumbnail.py projects/<slug> <image> "TEXT" [--side --color --size]` |
+| Shorts from the finished video | `python tools/make_shorts.py projects/<slug>` (`--pick`, `--preview`, `--count N`) |
 | *(more tools added as phases complete)* | |
 
 ## Status
@@ -105,7 +106,8 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
   - Tested: preview of the full 8:39 in ~1 min. 60 s at 1080p `--fast` ~1.4 min (4-core container). Loudness -14.3 LUFS. Alignment exact on a mangled fake transcript (85% match). Clip, blurred-bg, burned captions and fade all checked visually.
   - NOT yet tested for real: the Whisper model itself (blocked in the container) and Windows paths.
 - [x] Phase 3 — packaging. Claude writes `projects/<slug>/packaging.yaml` in-session (titles scored with the yt-package title linter: ≤60 chars, has a number/name, thumbnail text ≤3 words and doesn't repeat the title). `tools/package.py` assembles and validates: chapters from `build/section_times.json` (written by make_video on full renders), else estimated from the script. YouTube rules: 0:00 first, ≥3 chapters, ≥10 s each. Description ≤5000 chars, no angle brackets, hashtags ≤15, tags ≤500 chars. Source links are pulled from script.md. Output: `output/upload.md` + description/tags/pinned_comment txt. `tools/thumbnail.py`: owner's image → 1280x720 with outlined text (font from assets/fonts or a system bold font), never overwrites. Doomsday `packaging.yaml` is written (best pairing: "The 2015 Comic That Explains Avengers: Doomsday" + "GOD EMPEROR DOOM").
-- [ ] Phase 4 — Shorts
+- [x] Phase 4 — Shorts. `tools/make_shorts.py` reuses the long-form build: `build/timeline.json`, `words.json` and `voice_clean.wav`, written by make_video on full-length runs (preview is enough). Moments come from `projects/<slug>/shorts.yaml` (Claude writes it in-session; `from`/`to` = opening/closing words, matched across sentence boundaries; `banner` = headline pinned at the top). If there's no yaml, it auto-scores 20–55 s sentence windows (penalises connector openers, rewards names/numbers and short punchy endings, avoids OUTRO) and writes a draft yaml; the auto picks are only OK, so prefer a Claude-written yaml. Render: 1080x1920, `prepare_tall_canvas` keeps the full width of wide images so pans travel across them (capped by `ken_burns.max_pan`), 3-word uppercase burned captions 30% up from the bottom, yellow banner, ducked music. Tested in the container: 5 Shorts (27–44 s) in 3.4 min, frames checked visually. Doomsday `shorts.yaml` has 5 picks (Incursions, Cap mind-wipe, Doom kills Beyonders, God Emperor Doom, how Secret Wars ends).
+- Doomsday outro changed to Phill's usual sign-off (owner approved 2026-11-04): 1,432 words, ~9:33, still 93 shots.
 - [ ] Phase 5 — comic audiobook pipeline
 - [ ] Phase 6 — README guide + new_project.py
 

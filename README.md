@@ -110,4 +110,13 @@ python tools/thumbnail.py projects/<video-name> my_picture.jpg "GOD EMPEROR DOOM
 ```
 Options: `--side left/right/top/bottom`, `--color yellow/white/red`, `--size 1.2`. Put your channel font (.ttf) in `assets/fonts/` and it's used automatically.
 
-_(Coming next: Shorts.)_
+### 6. Shorts
+After the long video is made (a preview is enough), cut Shorts from it:
+```
+python tools/make_shorts.py projects/<video-name>
+```
+You get 3–5 vertical videos in `output/shorts/` (1080x1920). Each has big captions, a headline pinned at the top, and wide pictures that slowly pan across the tall frame. `output/shorts/shorts.md` has the title and description for each.
+
+Which moments become Shorts comes from **`shorts.yaml`**. Ask Claude to write it (it picks moments that make sense without the full video), or let the tool pick automatically. `--pick` only shows the choices without rendering, and `--preview` makes quick small versions. Change caption size and position in the `shorts:` part of `config.yaml`.
+
+_(Coming next: comic audiobook videos with AI character voices.)_

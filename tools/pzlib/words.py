@@ -149,7 +149,7 @@ def _groups(words, max_chars=None, max_words=None, max_secs=4.0):
                 groups.append(cur)
                 cur = []
         cur.append(w)
-        if re.search(r"[.!?]$", w["w"]) and len(" ".join(x["w"] for x in cur)) >= 12:
+        if re.search(r"[.!?]$", w["w"]) and (max_words or len(" ".join(x["w"] for x in cur)) >= 12):
             groups.append(cur)
             cur = []
     if cur:
@@ -189,14 +189,16 @@ def _ass_time(t):
     return f"{h}:{m:02d}:{s:02d}.{cs:02d}"
 
 
-def write_ass(words, path, cfg, width, height, max_words=None, uppercase=True):
+def write_ass(words, path, cfg, width, height, max_words=None, uppercase=True, margin_v=None, banner=None,
+              banner_end=None, size=None, banner_size=None):
     c = cfg["captions"]
     scale = height / 1080
     if width < height:  # vertical (Shorts): bigger relative to width, higher up
         scale = width / 1080 * 1.15
-    size = int(c.get("size", 66) * scale)
+    size = int(size or c.get("size", 66) * scale)
+    banner_size = int(banner_size or size * 0.8)
     outline = max(1, int(c.get("outline", 5) * scale))
-    margin = int(c.get("bottom_margin", 90) * (height / 1080))
+    margin = int(margin_v if margin_v is not None else c.get("bottom_margin", 90) * (height / 1080))
     col = "&H00" + _bgr(c.get("color", "FFFFFF"))
     ocol = "&H00" + _bgr(c.get("outline_color", "000000"))
     head = f"""[Script Info]
@@ -209,11 +211,15 @@ ScaledBorderAndShadow: yes
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Cap,{c.get('font', 'Arial Black')},{size},{col},{col},{ocol},&H64000000,-1,0,0,0,100,100,0,0,1,{outline},{max(1, outline // 2)},2,60,60,{margin},1
+Style: Banner,{c.get('font', 'Arial Black')},{banner_size},&H0000D4FF,&H0000D4FF,{ocol},&H64000000,-1,0,0,0,100,100,0,0,1,{outline},{max(1, outline // 2)},8,50,50,{int(height * 0.1)},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     rows = []
+    if banner and banner_end:
+        b = banner.upper().replace("{", "(").replace("}", ")")
+        rows.append(f"Dialogue: 1,{_ass_time(0)},{_ass_time(banner_end)},Banner,,0,0,0,,{b}")
     for s, e, text in _groups(words, max_words=max_words or c.get("burn_words", 5), max_chars=34):
         text = text.upper() if uppercase else text
         text = text.replace("{", "(").replace("}", ")")

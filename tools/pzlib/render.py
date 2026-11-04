@@ -43,6 +43,20 @@ def prepare_canvas(path, cw, ch, cfg):
     return bg, True
 
 
+def prepare_tall_canvas(path, cw, ch):
+    """Vertical video (Shorts): fill the frame height and KEEP the full width of wide pictures,
+    so the camera can pan across them instead of shrinking them into a strip."""
+    im = ImageOps.exif_transpose(Image.open(path))
+    if im.mode != "RGB":
+        bg = Image.new("RGB", im.size, (0, 0, 0))
+        im = im.convert("RGBA")
+        bg.paste(im, mask=im.split()[-1])
+        im = bg
+    scale = max(ch / im.height, cw / im.width)
+    size = (max(cw, round(im.width * scale)), max(ch, round(im.height * scale)))
+    return im.resize(size, Image.LANCZOS), False
+
+
 class Still:
     def __init__(self, path, start, end, move, focus=(0.5, 0.5)):
         self.path, self.start, self.end, self.move, self.focus = Path(path), start, end, move, focus
@@ -52,8 +66,13 @@ class Still:
     def open(self, w, h, cfg):
         z = 1 + cfg["ken_burns"].get("zoom", 0.12)
         self.cw, self.ch = round(w * z), round(h * z)
-        self.canvas, self.blurred = prepare_canvas(self.path, self.cw, self.ch, cfg)
+        if h > w:
+            self.canvas, self.blurred = prepare_tall_canvas(self.path, self.cw, self.ch)
+            self.cw, self.ch = self.canvas.size
+        else:
+            self.canvas, self.blurred = prepare_canvas(self.path, self.cw, self.ch, cfg)
         self.z, self.w, self.h = z, w, h
+        self.max_pan = cfg["ken_burns"].get("max_pan", 0.9)  # cap travel on very wide pictures
         self.ease = cfg["ken_burns"].get("ease", 0.35)
 
     def box(self, p):
@@ -61,21 +80,24 @@ class Still:
         cw, ch, w, h, z = self.cw, self.ch, self.w, self.h, self.z
         m = self.move
         if m in ("zoom_in", "zoom_out"):
-            f = 1 - (1 - 1 / z) * (p if m == "zoom_in" else 1 - p)
-            vw, vh = cw * f, ch * f
+            kmax = min(cw / w, ch / h)  # biggest frame-shaped view that fits the canvas
+            k = kmax - (kmax - 1) * (p if m == "zoom_in" else 1 - p)
+            vw, vh = w * k, h * k
             cx = min(max(self.focus[0] * cw, vw / 2), cw - vw / 2)
             cy = min(max(self.focus[1] * ch, vh / 2), ch - vh / 2)
             return (cx - vw / 2, cy - vh / 2, cx + vw / 2, cy + vh / 2)
         sx, sy = cw - w, ch - h
+        tx, ty = min(sx, w * self.max_pan), min(sy, h * self.max_pan)
+        ox, oy = (sx - tx) / 2, (sy - ty) / 2
         x0, y0 = sx / 2, sy / 2
         if m == "pan_right":
-            x0 = sx * p
+            x0 = ox + tx * p
         elif m == "pan_left":
-            x0 = sx * (1 - p)
+            x0 = ox + tx * (1 - p)
         elif m == "pan_down":
-            y0 = sy * p
+            y0 = oy + ty * p
         elif m == "pan_up":
-            y0 = sy * (1 - p)
+            y0 = oy + ty * (1 - p)
         return (x0, y0, x0 + w, y0 + h)
 
     def frame(self, t):
@@ -87,15 +109,16 @@ class Still:
 
 
 class Clip:
-    def __init__(self, path, start, end):
-        self.path, self.start, self.end = Path(path), start, end
+    def __init__(self, path, start, end, offset=0.0):
+        self.path, self.start, self.end, self.offset = Path(path), start, end, offset
         self.kind = "clip"
         self.proc = None
 
     def open(self, w, h, cfg, fps):
         self.w, self.h = w, h
         self.proc = subprocess.Popen(
-            ["ffmpeg", "-hide_banner", "-loglevel", "error", "-stream_loop", "-1", "-i", str(self.path),
+            ["ffmpeg", "-hide_banner", "-loglevel", "error", "-stream_loop", "-1",
+             "-ss", f"{self.offset:.3f}", "-i", str(self.path),
              "-t", f"{self.end - self.start + 1:.3f}", "-an",
              "-vf", f"scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h},fps={fps},format=rgb24",
              "-f", "rawvideo", "-"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)

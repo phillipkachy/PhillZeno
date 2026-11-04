@@ -60,3 +60,10 @@ captions:
   outline_color: "000000"
   outline: 5
   bottom_margin: 90
+
+shorts:                    # python tools/make_shorts.py <project>
+  caption_words: 3         # words per caption flash (big and punchy)
+  caption_height: 0.30     # captions sit 30% up from the bottom (clear of YouTube's buttons)
+  caption_size: 115        # caption text size (at 1080 wide)
+  banner_size: 95          # headline text size at the top
+  hashtags: [Shorts, Marvel, AvengersDoomsday]

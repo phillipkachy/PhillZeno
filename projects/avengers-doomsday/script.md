@@ -336,7 +336,7 @@ Now I want to know. Is Doom a Tony variant, or something else entirely?
 
 [IMAGE: Doom close-up]
 
-Drop your theory in the comments. I read every one.
+Drop your theory in the comments. And if you watched all the way through, I really appreciate it. Give it a like, subscribe to help me keep making these videos, and I'll see you in the next one.
 
 [IMAGE: PhillZeno end card]
 

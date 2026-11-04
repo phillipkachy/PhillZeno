@@ -294,6 +294,14 @@ def main():
     print("3/5 Placing your images...")
     segs = build_timeline(proj, paras, swords, total, cfg, report)
     segs = [s for s in segs if s.start < total]
+    if not args.seconds:  # saved for tools/make_shorts.py
+        (build / "timeline.json").write_text(json.dumps({
+            "total": round(total, 3),
+            "segments": [{"kind": s.kind, "path": str(s.path.resolve()), "start": round(s.start, 3),
+                          "end": round(s.end, 3), "move": getattr(s, "move", None),
+                          "focus": list(getattr(s, "focus", (0.5, 0.5)))} for s in segs]}), encoding="utf-8")
+        (build / "words.json").write_text(json.dumps([
+            {k: w[k] for k in ("w", "para", "start", "end")} for w in swords]), encoding="utf-8")
     report["segments"] = len(segs)
     if report["missing"]:
         print(f"    {len(report['missing'])} shots have no image yet (listed in the report).")
