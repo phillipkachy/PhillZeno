@@ -19,6 +19,7 @@ Read this first every session. It's the full brief plus where we are. Keep it up
 8. Commercial use matters: the channel is (or will be) monetized, so check model **licenses** allow commercial use.
 
 ## Workflow rules
+- **GitHub (fixed 2026-11-04):** repo `phillipkachy/PhillZeno`. The Claude GitHub App is installed with access to all repos. `main` is the default branch. Claude works on its `claude/...` branch and pushes after every change. To update `main`, open a pull request the owner merges (no direct pushes to main without asking).
 - Go phase by phase; stop at every CHECKPOINT and wait for the go-ahead.
 - After each phase: 3–5 line summary (what works, exact command, what the owner does next).
 - Fix failures ourselves first; only ask the owner for decisions or files.
