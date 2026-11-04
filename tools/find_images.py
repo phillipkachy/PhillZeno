@@ -104,8 +104,13 @@ def search_images(query, wide, page_size=30):
     for r in results:
         if not r.get("image"):
             continue
+        def num(v):
+            try:
+                return int(float(v))
+            except (TypeError, ValueError):
+                return 0
         items.append({"image": r["image"], "thumb": r.get("thumbnail") or r["image"],
-                      "w": r.get("width"), "h": r.get("height"),
+                      "w": num(r.get("width")), "h": num(r.get("height")),
                       "title": r.get("title", ""), "page": r.get("url", "")})
     return {"results": items}
 
@@ -270,7 +275,8 @@ def auto_fill(proj, queries_file):
         saved_q = json.loads(queries_file.read_text(encoding="utf-8"))
     except Exception:
         saved_q = {}
-    todo = [s for s in shots if not existing_files(proj, s["shot"])]
+    todo = [s for s in shots if not existing_files(proj, s["shot"])
+            and not re.search(r"phillzeno|end card|your logo|my logo", s["desc"], re.I)]  # owner's branding
     print(f"Automatic first pass: {len(todo)} of {len(shots)} shots need an image.")
     print("This takes a few seconds per shot. Leave it running.\n")
     got, failed = 0, []

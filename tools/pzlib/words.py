@@ -49,7 +49,15 @@ def transcribe(audio, cfg, cache_dir, prompt=""):
     except Exception as e:
         raise EditorError(f"Couldn't load the Whisper model ({type(e).__name__}: {e}). "
                           f"Check your internet for the first-time download.")
-    segments, info = model.transcribe(str(audio), language=tc.get("language", "en"), word_timestamps=True,
+    # decode with ffmpeg ourselves: avoids faster-whisper's PyAV version clashes
+    import subprocess
+    import numpy as np
+    raw = subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", str(audio), "-ac", "1", "-ar", "16000",
+                          "-f", "f32le", "-"], capture_output=True).stdout
+    samples = np.frombuffer(raw, dtype=np.float32)
+    if not samples.size:
+        raise EditorError("Couldn't read the voiceover audio for transcription.")
+    segments, info = model.transcribe(samples, language=tc.get("language", "en"), word_timestamps=True,
                                       initial_prompt=prompt[:800] or None, vad_filter=True,
                                       condition_on_previous_text=False)
     words = []

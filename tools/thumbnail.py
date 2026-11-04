@@ -59,7 +59,7 @@ def main():
         img_path = Path(a.project) / "images" / a.image
     if not img_path.exists():
         sys.exit(f"Can't find the image {a.image}.")
-    im = ImageOps.fit(ImageOps.exif_transpose(Image.open(img_path)).convert("RGB"), (W, H), Image.LANCZOS)
+    im = ImageOps.fit(ImageOps.exif_transpose(Image.open(img_path)).convert("RGB"), (W, H), Image.LANCZOS, centering=(0.5, 0.2))
     color = COLORS.get(a.color.lower(), "#" + a.color.lstrip("#"))
 
     # one word per line for left/right, all on one line for top/bottom
