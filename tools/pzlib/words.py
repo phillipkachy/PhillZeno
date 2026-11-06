@@ -9,8 +9,20 @@ from pathlib import Path
 from .media import EditorError
 
 
+_NUM = ("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen "
+        "sixteen seventeen eighteen nineteen twenty").split()
+_ABBR = {"dr": "doctor", "mr": "mister", "mrs": "missus", "vs": "versus", "st": "saint"}
+
+
 def norm(w):
-    return re.sub(r"[^a-z0-9]", "", w.lower().replace("’", "'"))
+    """Comparable form of a word: lowercase letters/digits; "4" == "four", "Dr." == "Doctor"."""
+    n = re.sub(r"[^a-z0-9]", "", w.lower().replace("’", "'"))
+    if n.isdigit() and int(n) <= 20:
+        return _NUM[int(n)]
+    m = re.fullmatch(r"(\d+)(st|nd|rd|th)", n)
+    if m and int(m.group(1)) <= 20:
+        return _NUM[int(m.group(1))]
+    return _ABBR.get(n, n)
 
 
 def script_words(paras):
@@ -29,7 +41,7 @@ def transcribe(audio, cfg, cache_dir, prompt=""):
     """Word-level transcript via faster-whisper (local, free). Cached by audio hash."""
     tc = cfg["transcribe"]
     h = hashlib.sha1(Path(audio).read_bytes()).hexdigest()[:12]
-    cache = Path(cache_dir) / f"transcript_{tc['model']}_{h}.json"
+    cache = Path(cache_dir) / f"transcript_v2_{tc['model']}_{h}.json"
     if cache.exists():
         return json.loads(cache.read_text(encoding="utf-8"))
     try:
@@ -58,7 +70,7 @@ def transcribe(audio, cfg, cache_dir, prompt=""):
     if not samples.size:
         raise EditorError("Couldn't read the voiceover audio for transcription.")
     segments, info = model.transcribe(samples, language=tc.get("language", "en"), word_timestamps=True,
-                                      initial_prompt=prompt[:800] or None, vad_filter=True,
+                                      initial_prompt=prompt[:800] or None, vad_filter=False,  # VAD hid false starts
                                       condition_on_previous_text=False)
     words = []
     for seg in segments:
@@ -238,3 +250,73 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 def _bgr(hexrgb):
     h = str(hexrgb).lstrip("#").upper().rjust(6, "0")
     return h[4:6] + h[2:4] + h[0:2]
+
+
+# ------------------------------------------------------------------ retakes and long pauses
+
+FILLERS = {"uh", "um", "uhm", "er", "erm", "ah", "hmm", "mm"}
+
+
+def find_cuts(swords, transcript, total, max_pause=1.0, keep_pause=0.45, cut_retakes=True):
+    """Spots false starts (words said, then restarted, that the script only has once), filler sounds,
+    and long pauses. Returns (cuts, notes): cuts = list of (start, end) seconds to remove."""
+    s_norm = [w["n"] for w in swords]
+    t_norm = [norm(w["w"]) for w in transcript]
+    sm = difflib.SequenceMatcher(None, s_norm, t_norm, autojunk=False)
+    t_to_s = {}
+    for a, b, size in sm.get_matching_blocks():
+        for k in range(size):
+            t_to_s[b + k] = a + k
+    cuts, notes, drop = [], [], set()
+    if cut_retakes:
+        i, n = 0, len(transcript)
+        while i < n:
+            if i in t_to_s or not t_norm[i]:
+                i += 1
+                continue
+            j = i
+            while j + 1 < n and (j + 1) not in t_to_s:
+                j += 1
+            run = [t_norm[k] for k in range(i, j + 1) if t_norm[k]]
+            prev_s = max([t_to_s[k] for k in t_to_s if k < i], default=-1)
+            window = set(s_norm[max(0, prev_s - 15):prev_s + 25])
+            near = sum(1 for w in run if w in window) / max(len(run), 1)
+            is_filler = all(w in FILLERS for w in run)
+            if is_filler or (len(run) >= 2 and near >= 0.6):
+                start = transcript[i]["start"]
+                end = transcript[j + 1]["start"] - 0.06 if j + 1 < n else transcript[j]["end"]
+                if end - start > 0.15:
+                    cuts.append((start, end))
+                    drop.update(range(i, j + 1))
+                    notes.append(f"{_mmss(start)}: cut {'filler' if is_filler else 'retake'} "
+                                 f"\"{' '.join(transcript[k]['w'] for k in range(i, j + 1))}\" ({end - start:.1f}s)")
+            i = j + 1
+    kept = [w for k, w in enumerate(transcript) if k not in drop]
+    for a, b in zip(kept, kept[1:]):
+        gap = b["start"] - a["end"]
+        if gap > max_pause and not any(cs <= a["end"] + 0.01 and ce >= b["start"] - 0.1 for cs, ce in cuts):
+            cuts.append((a["end"] + keep_pause / 2, b["start"] - keep_pause / 2))
+            notes.append(f"{_mmss(a['end'])}: shortened a {gap:.1f}s pause")
+    cuts.sort()
+    merged = []
+    for c in cuts:
+        if merged and c[0] <= merged[-1][1] + 0.05:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], c[1]))
+        else:
+            merged.append(c)
+    return [(round(a, 3), round(b, 3)) for a, b in merged if b - a > 0.05], notes
+
+
+def shift_words(transcript, cuts):
+    """Drop words inside cuts and move later words earlier by the time removed before them."""
+    out = []
+    for w in transcript:
+        if any(a <= (w["start"] + w["end"]) / 2 <= b for a, b in cuts):
+            continue
+        before = sum(b - a for a, b in cuts if b <= w["start"] + 0.001)
+        out.append(dict(w, start=round(w["start"] - before, 3), end=round(w["end"] - before, 3)))
+    return out
+
+
+def _mmss(t):
+    return f"{int(t // 60)}:{t % 60:04.1f}"

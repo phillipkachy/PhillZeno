@@ -268,6 +268,20 @@ def main():
         transcript = W.transcribe(voice, cfg, build, prompt=", ".join(names))
         if not transcript:
             raise EditorError("Whisper heard no words in the voiceover. Is the file silent?")
+        ac = cfg["audio"]
+        if src["kind"] == "recorded" and (ac.get("cut_retakes", True) or ac.get("max_pause")):
+            cuts, cut_notes = W.find_cuts(swords, transcript, vdur, max_pause=ac.get("max_pause") or 999,
+                                          cut_retakes=ac.get("cut_retakes", True))
+            if cuts:
+                edited = build / "voice_edited.wav"
+                media.apply_cuts(voice, edited, cuts)
+                edited.replace(voice)  # downstream (mix, Shorts) uses the edited voice
+                transcript = W.shift_words(transcript, cuts)
+                removed = sum(b - a for a, b in cuts)
+                vdur = media.duration(voice)
+                report["notes"].append(f"Removed {removed:.1f}s of retakes/fillers/long pauses ({len(cuts)} cuts):")
+                report["notes"] += ["  " + n for n in cut_notes]
+                print(f"    Cut {len(cuts)} retakes/pauses ({removed:.1f}s). Details in the report.")
         ratio = W.align(swords, transcript, vdur)
         report["timing"] = f"Whisper transcript lined up with script.md: {ratio:.0%} of script words matched"
         if ratio < 0.6:

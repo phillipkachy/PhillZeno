@@ -37,6 +37,8 @@ audio:
   trim_silence: true       # cut dead air at the very start and end
   loudness: -14            # LUFS. YouTube's target is -14.
   tail_seconds: 1.0        # picture keeps going this long after your last word
+  cut_retakes: true        # cut false starts ("and number one is the— and number one is...") and um/uh
+  max_pause: 1.0           # pauses longer than this (seconds) get shortened. 0 = leave pauses alone
 
 music:
   file: auto               # auto = first file in assets/music/. Or a file name. Or "none".

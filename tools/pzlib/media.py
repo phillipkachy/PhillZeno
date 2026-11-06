@@ -147,3 +147,26 @@ def mix(voice, music, out, total, cfg):
         mixin = "[v][m]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.89[out]"
     ffmpeg("-i", voice, "-stream_loop", "-1", "-i", music, "-filter_complex",
            music_chain + voice_chain + duck + mixin, "-map", "[out]", "-t", f"{total:.3f}", "-ar", "48000", out)
+
+
+def apply_cuts(src, dst, cuts):
+    """Remove the (start, end) ranges from the audio, with tiny fades so cuts don't click."""
+    if not cuts:
+        return
+    keep, t = [], 0.0
+    for a, b in cuts:
+        if a > t:
+            keep.append((t, a))
+        t = b
+    keep.append((t, None))
+    parts, labels = [], []
+    for i, (a, b) in enumerate(keep):
+        trim = f"atrim=start={a:.3f}" + (f":end={b:.3f}" if b is not None else "")
+        dur = (b - a) if b is not None else None
+        fade = "afade=t=in:d=0.015"
+        if dur:
+            fade += f",afade=t=out:st={max(dur - 0.015, 0):.3f}:d=0.015"
+        parts.append(f"[0:a]{trim},asetpts=PTS-STARTPTS,{fade}[p{i}]")
+        labels.append(f"[p{i}]")
+    graph = ";".join(parts) + ";" + "".join(labels) + f"concat=n={len(labels)}:v=0:a=1[out]"
+    ffmpeg("-i", src, "-filter_complex", graph, "-map", "[out]", dst)
