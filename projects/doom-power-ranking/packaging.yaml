@@ -1,0 +1,74 @@
+# Packaging for "Doctor Doom's 7 Most Powerful Comic Book Moments". Edit, then: python tools/package.py projects/doom-power-ranking
+
+titles:
+  - text: "Doctor Doom Stole a God's Power. That's Only #2"
+    best: true
+    why: "Your own hook, word for word, so the video pays it off in the first 10 seconds. Score 94. Pairs with thumbnail 1."
+  - text: "7 Times Doctor Doom Was Basically a God"
+    why: "Score 100, punchy, but #6 and #7 aren't really god-level, so it slightly overclaims."
+  - text: "RDJ's Doctor Doom: His 7 Strongest Comic Moments"
+    why: "Rides the RDJ/Doomsday search traffic. Score 94."
+  - text: "Before Doomsday: Doctor Doom's 7 Scariest Feats"
+    why: "Timely, good for search before December 18. Score 94."
+  - text: "Doctor Doom's 7 Most Powerful Moments, Ranked"
+    why: "Plain and searchable, weakest click. Score 80."
+
+thumbnails:
+  - text: "WAIT FOR #1"
+    pairs_with: "Doctor Doom Stole a God's Power. That's Only #2"
+    image: "God Emperor Doom glowing (Secret Wars 2015) big on one side; a small '#2' badge over a Beyonder/Secret Wars 1984 image."
+    notes: "Yellow text, thick black outline. The title says #2, the thumbnail teases #1: different words, same promise."
+  - text: "HE BEAT MEPHISTO"
+    pairs_with: "7 Times Doctor Doom Was Basically a God"
+    image: "Doom vs Mephisto (Triumph and Torment) with red hell background."
+    notes: "Red/green contrast pops at phone size."
+  - text: "COMICS VS MOVIES"
+    pairs_with: "RDJ's Doctor Doom: His 7 Strongest Comic Moments"
+    image: "Split: RDJ's Doom (Doomsday poster) left, comic God Emperor Doom right."
+    notes: "Good for the search crowd. Keep both faces large."
+
+chapters:
+  HOOK: "Doom stole a god's power"
+  SETUP: "The real Doctor Doom"
+  NUMBER 7: "#7 The Power Cosmic"
+  NUMBER 6: "#6 Doomwar"
+  NUMBER 5: "#5 Emperor Doom"
+  NUMBER 4: "#4 Triumph and Torment"
+  NUMBER 3: "#3 Sorcerer Supreme"
+  NUMBER 2: "#2 Secret Wars (1984)"
+  NUMBER 1: "#1 Secret Wars (2015)"
+  OUTRO: "Doom in Avengers: Doomsday"
+
+description:
+  hook: |
+    Doctor Doom once stole the power of a god, and that's only #2 on this list.
+    Before Robert Downey Jr. plays him in Avengers: Doomsday, here are Doom's 7 most powerful comic book moments.
+  summary: |
+    The movies haven't been kind to Doctor Doom. The comics are a different story. I'm ranking Doom's 7 most powerful moments, from stealing the Power Cosmic from the Silver Surfer to conquering the whole planet with the Purple Man, taking on Mephisto in Triumph and Torment, becoming Sorcerer Supreme, stealing the Beyonder's power in the original Secret Wars, and finally becoming God Emperor Doom in Secret Wars (2015).
+
+    Comics mentioned: Fantastic Four #57–60 (1966–67), Doomwar (2010), Emperor Doom (1987), Doctor Strange and Doctor Doom: Triumph and Torment (1989), Blood Hunt (2024), One World Under Doom (2025), Secret Wars (1984), Secret Wars (2015).
+  extra: |
+    Which moment would you rank #1? Let me know in the comments.
+
+hashtags: [DoctorDoom, AvengersDoomsday, Marvel]
+
+tags:
+  - doctor doom
+  - doctor doom most powerful moments
+  - doctor doom ranked
+  - doctor doom explained
+  - rdj doctor doom
+  - avengers doomsday
+  - god emperor doom
+  - secret wars 2015
+  - secret wars 1984 beyonder
+  - triumph and torment
+  - doomwar
+  - one world under doom
+  - doctor doom sorcerer supreme
+  - marvel comics explained
+
+include_sources: true
+
+pinned_comment: |
+  Which Doom moment would YOU put at #1? I almost had Triumph and Torment higher 👀 Let me know below.
