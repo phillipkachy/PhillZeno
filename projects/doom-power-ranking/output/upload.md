@@ -1,10 +1,5 @@
 # Upload pack: doom-power-ranking
 
-## Notes
-
-- Thumbnail "RDJ'S DOOM" repeats "doom, rdj's" from its title.
-- Chapter times are ESTIMATES from the script. Re-run this after the final render (make_video.py) to get the real times.
-
 ## 1. Title (pick one)
 
 1. `Doctor Doom Stole a God's Power. That's Only #2` (47 chars) ⭐ **best with the thumbnail**
@@ -28,7 +23,7 @@
 - Image: Doom vs Mephisto (Triumph and Torment) with red hell background.
 - Tips: Red/green contrast pops at phone size.
 
-**Concept 3: "RDJ'S DOOM"** (pairs with: *RDJ's Doctor Doom: His 7 Strongest Comic Moments*)
+**Concept 3: "COMICS VS MOVIES"** (pairs with: *RDJ's Doctor Doom: His 7 Strongest Comic Moments*)
 - Image: Split: RDJ's Doom (Doomsday poster) left, comic God Emperor Doom right.
 - Tips: Good for the search crowd. Keep both faces large.
 
@@ -45,14 +40,14 @@ Comics mentioned: Fantastic Four #57–60 (1966–67), Doomwar (2010), Emperor D
 Chapters:
 0:00 Doom stole a god's power
 0:10 The real Doctor Doom
-0:43 #7 The Power Cosmic
-1:32 #6 Doomwar
-2:19 #5 Emperor Doom
-3:01 #4 Triumph and Torment
-3:56 #3 Sorcerer Supreme
-4:42 #2 Secret Wars (1984)
-5:21 #1 Secret Wars (2015)
-6:17 Doom in Avengers: Doomsday
+0:36 #7 The Power Cosmic
+1:17 #6 Doomwar
+2:03 #5 Emperor Doom
+2:40 #4 Triumph and Torment
+3:29 #3 Sorcerer Supreme
+4:08 #2 Secret Wars (1984)
+4:37 #1 Secret Wars (2015)
+5:25 Doom in Avengers: Doomsday
 
 Which moment would you rank #1? Let me know in the comments.
 

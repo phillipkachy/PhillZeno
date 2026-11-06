@@ -1,6 +1,6 @@
 # Edit report: doom-power-ranking
 
-_Made 2026-11-06 23:07 · mode: preview_
+_Made 2026-11-06 23:16 · mode: final_
 
 ## Summary
 
@@ -10,7 +10,7 @@ _Made 2026-11-06 23:07 · mode: preview_
 - **Music:** none (add a track to assets/music/ for background music)
 - **Shots:** 77 · picture changes: 81 · average 4.3s per picture
 - **Captions:** 168 captions → doom-power-ranking.srt
-- **Render time:** 0.4 min
+- **Render time:** 8.9 min
 
 ## Notes
 
