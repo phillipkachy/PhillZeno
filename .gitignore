@@ -38,3 +38,5 @@ models/
 # OS junk
 .DS_Store
 Thumbs.db
+projects/*/output/shorts/*.mp4
+projects/*/output/*_preview.mp4

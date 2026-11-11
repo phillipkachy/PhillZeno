@@ -17,7 +17,7 @@ Here's what an Incursion is, and why it matters for Avengers: Doomsday. Full bre
 
 _Starts with:_ "In Hickman's comics, the multiverse starts dying."
 
-## Short 2: `short_2.mp4` (41s)
+## Short 2: `short_2.mp4` (40s)
 
 **Title:** The Avengers Erased Captain America's Memory
 
