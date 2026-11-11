@@ -43,11 +43,11 @@ Chapters:
 0:00 Doom becomes a god
 0:10 The comic behind Doomsday
 1:02 Incursions explained
-2:26 The Illuminati's worst decision
+2:27 The Illuminati's worst decision
 4:02 Time Runs Out: Doom kills the Beyonders
 5:08 God Emperor Doom and Battleworld
 6:44 Reed vs. Doom: how it ends
-8:06 What to read before December 18
+8:08 What to read before December 18
 
 What's your theory: is Doom a Tony Stark variant or something else? Let me know in the comments.
 

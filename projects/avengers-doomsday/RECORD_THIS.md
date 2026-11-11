@@ -8,7 +8,6 @@ Just read the text below. Headings are NOT read out. About 9–10 minutes in tot
 - **One file per section** is easiest: if you mess up, just redo that section. Name them in order:
   `01_hook`, `02_setup`, `03_segment1` … `08_outro` (any format: .m4a, .mp3, .wav).
 - Messed up a line? **Re-record that whole section** (sections are short, 30 s to 2 min). The editor doesn't cut out mistakes yet, so a flub left in a file ends up in the video.
-- "In six weeks" in the hook assumes you upload around Nov 6. If it's later, say "in a few weeks" or the right number.
 - Hype matters more than perfection: read it like you're telling a friend.
 - Then put the files in `projects/avengers-doomsday/voiceover/` (or send them to Claude) and everything else is automatic.
 
@@ -16,7 +15,7 @@ Just read the text below. Headings are NOT read out. About 9–10 minutes in tot
 
 ## 01 · HOOK   (save as `01_hook`)
 
-In the comics, Doctor Doom doesn't just beat the Avengers. He kills the gods. He rebuilds reality. He makes himself God Emperor. And in six weeks, Marvel's putting that story on screen.
+In the comics, Doctor Doom doesn't just beat the Avengers. He kills the gods. He rebuilds reality. He makes himself God Emperor. And in a few weeks, Marvel's putting that story on screen.
 
 ---
 

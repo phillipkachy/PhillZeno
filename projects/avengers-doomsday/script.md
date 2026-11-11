@@ -2,7 +2,7 @@
 
 ## HOOK
 
-In the comics, Doctor Doom doesn't just beat the Avengers. He kills the gods. He rebuilds reality. He makes himself God Emperor. And in six weeks, Marvel's putting that story on screen.
+In the comics, Doctor Doom doesn't just beat the Avengers. He kills the gods. He rebuilds reality. He makes himself God Emperor. And in a few weeks, Marvel's putting that story on screen.
 
 [IMAGE: God Emperor Doom on his throne, Secret Wars 2015 art]
 [IMAGE: RDJ as Doom from the D23 trailer, close-up]
