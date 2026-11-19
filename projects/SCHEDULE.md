@@ -25,3 +25,24 @@ and for **Doomsday only** tick "Altered or synthetic content" (cloned voice).
 | Sat Dec 6 | 12:00 PM | Short: How Reed Richards Beat God Emperor Doom | Doomsday #5 |
 
 vidIQ library (already uploaded): thumbnails doom-power-ranking e592cdcc…, avengers-doomsday ce00efa2…, dc-new-leadership f63f5426…
+
+## vidIQ drafts (created 2026-11-19, all "ready", 0 credits). Not scheduled until published.
+| Date | postId | revision |
+|---|---|---|
+| Nov 20 | 67996fe3-12ee-4a72-a357-c2b94c37a331 | 9ee69715 |
+| Nov 21 | 95dd7aec-69bd-4821-bf21-a2a148259b4e | fc1ba741 |
+| Nov 22 | 6993be28-4ea2-47f4-bd7f-bed0a9b1e583 | bd3b2bff |
+| Nov 23 | 66c6a29a-05f7-4854-bc38-f7c25caaf529 | 46acffbe |
+| Nov 24 | 0b7cd0e4-b43a-482a-a472-b62b8ccb5b47 | 35a26c9e |
+| Nov 25 | b8614f16-e6ca-4539-9d7d-6200577183b0 | cef596ce |
+| Nov 26 | 9e1ab831-8f67-4bb8-ad14-33db2b36281f | 5da0de42 |
+| Nov 27 | 20dd95a6-f7d4-40ac-87e3-7d9772d3799d | 6b84e827 |
+| Nov 28 | 8edba394-204d-4499-b58f-a725c4bde2c7 | 0cadbbaa |
+| Nov 29 | ef3c2e7a-c904-4821-a66c-a5c194cef1fa | 6e2a79d5 |
+| Nov 30 | fe8bd251-bdb0-447d-80e2-238515c7dcb4 | aff7515d |
+| Dec 1 | fe7d166d-9cb1-4b6a-be4b-7d5a54519d0f | 892e1a70 |
+| Dec 2 | 5473aabe-75c1-4510-bd6c-15891e14f7f7 | 12a772b7 |
+| Dec 3 | 62c731cc-9006-4a07-8cc5-79a3a2d4b7cd | 45f23d0a |
+| Dec 4 | 97e13955-f7b4-4adc-b57f-0bd0a5f252bc | 1f1d3ae4 |
+| Dec 5 | a5caec13-a40b-4e22-ae3c-d0dceeedb54e | 4c3b9305 |
+| Dec 6 | a00ecafd-b011-4174-8cb0-66274daaf8ff | 6f7c4f8e |
