@@ -94,6 +94,7 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 | Upload pack (titles, description+chapters, tags) | `python tools/package.py projects/<slug>` (needs `packaging.yaml`) |
 | Thumbnail text on owner's image | `python tools/thumbnail.py projects/<slug> <image> "TEXT" [--side --color --size]` |
 | Shorts from the finished video | `python tools/make_shorts.py projects/<slug>` (`--pick`, `--preview`, `--count N`) |
+| Clean a voice recording (no script needed) | `python tools/clean_audio.py inbox/<file> [--cut 4:32.8-4:42.2] [--keep-pauses]` → `inbox/cleaned/` |
 | *(more tools added as phases complete)* | |
 
 ## Status
@@ -120,6 +121,7 @@ Big media is git-ignored (see `.gitignore`); code, configs, scripts and reports 
 - **Doomsday video DONE (2026-11-07)** in the owner's cloned voice (Chatterbox standard, exaggeration per profile.yaml): 8:34, final render with `--whisper` for exact caption timing (97% match), 8 real chapters, 5 Shorts, sent via chat. Narration QA = per-paragraph re-transcription (all ≥78%). Redid #24 (the hyphenated "Ill-oo-min-ah-tee" respelling made it choppy, so it was removed from pronunciations.yaml) and #44. Shots 010 and 093 still have no image (the previous image is reused). The owner hasn't yet confirmed the clone sounds like them. Upload with "altered or synthetic content" ticked.
 - **Delivery (2026-11-15):** Gmail caps attachments at 25 MB, so the full-quality MP4s were uploaded (with the owner's explicit OK, no paid plans) to the owner's **Adobe Creative Cloud** via the Adobe connector, folder `PhillZeno/` (asset ids urn:aaid:sc:US:a3899d68-… Doomsday, urn:aaid:sc:US:36a9cc7e-… Doom ranking). Sizes verified byte-exact. Private share links were emailed. Note: the Gmail connector is authenticated as **jealyshar@gmail.com** (it sends from that address to phillipkachy@gmail.com). The owner was told.
 - **YouTube publishing:** the vidIQ connector (free plan, ~85/150 credits; uploads and publishing to YouTube cost 0 credits, `vidiq_update_video` costs 5) is linked to phillipkachy@gmail.com but **no YouTube channel is connected yet**. An authorization link was given via `vidiq_connect_youtube_channel`. vidIQ can't upload captions, set the altered-content flag or pin comments, so the owner does those in Studio. Video files must reach vidIQ via its file picker (`vidiq_file_upload`, ≤4 GB) or a public URL (≤299 MB).
+- **2026-11-19:** the owner sent `inbox/chilis_recording.m4a` (5:05, 16 kHz phone recording, quiet room): an unscripted opinion piece on DC's leadership change (no reboot, keep Gunn's lore, earn trust with big Batman/Wonder Woman/Superman films, follow the DC animated movies), teasing a Robert Pattinson Bond/Batman video. Cleaned with the new `tools/clean_audio.py` → 4:47 (cut the retake at 4:32.75–4:42.15 + 6 long pauses), −14 LUFS. A possible next video: needs a script.md written from the transcript + images.
 - [ ] Phase 5 — comic audiobook pipeline
 - [ ] Phase 6 — README guide + new_project.py
 
