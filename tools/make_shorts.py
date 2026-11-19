@@ -214,7 +214,7 @@ def main():
         subs = work / f"captions_{k}.ass"
         W.write_ass(swords, subs, cfg, w, h, max_words=sc.get("caption_words", 3),
                     margin_v=int(h * sc.get("caption_height", 0.30)),
-                    banner=sh.get("banner"), banner_end=dur,
+                    banner=sh.get("banner"), banner_end=dur, intro=sh.get("first_2s_text"),
                     size=int(sc.get("caption_size", 115) * w / 1080),
                     banner_size=int(sc.get("banner_size", 95) * w / 1080))
         out = outdir / f"short_{k}{'_preview' if args.preview else ''}.mp4"

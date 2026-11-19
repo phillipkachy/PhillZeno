@@ -64,7 +64,7 @@ def transcribe(audio, cfg, cache_dir, prompt=""):
     # decode with ffmpeg ourselves: avoids faster-whisper's PyAV version clashes
     import subprocess
     import numpy as np
-    raw = subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", str(audio), "-ac", "1", "-ar", "16000",
+    raw = subprocess.run(["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-i", str(audio), "-ac", "1", "-ar", "16000",
                           "-f", "f32le", "-"], capture_output=True).stdout
     samples = np.frombuffer(raw, dtype=np.float32)
     if not samples.size:
@@ -210,7 +210,7 @@ def _ass_time(t):
 
 
 def write_ass(words, path, cfg, width, height, max_words=None, uppercase=True, margin_v=None, banner=None,
-              banner_end=None, size=None, banner_size=None):
+              banner_end=None, size=None, banner_size=None, intro=None, intro_end=2.0):
     c = cfg["captions"]
     scale = height / 1080
     if width < height:  # vertical (Shorts): bigger relative to width, higher up
@@ -231,12 +231,16 @@ ScaledBorderAndShadow: yes
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Cap,{c.get('font', 'Arial Black')},{size},{col},{col},{ocol},&H64000000,-1,0,0,0,100,100,0,0,1,{outline},{max(1, outline // 2)},2,60,60,{margin},1
+Style: Intro,{c.get('font', 'Arial Black')},{int(size * 1.45)},&H0000D4FF,&H0000D4FF,{ocol},&H64000000,-1,0,0,0,100,100,0,0,1,{outline + 2},{max(1, outline // 2)},5,40,40,0,1
 Style: Banner,{c.get('font', 'Arial Black')},{banner_size},&H0000D4FF,&H0000D4FF,{ocol},&H64000000,-1,0,0,0,100,100,0,0,1,{outline},{max(1, outline // 2)},8,50,50,{int(height * 0.1)},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     rows = []
+    if intro:  # big hook text in the middle for the first seconds (yt-shorts: on-screen text, first 2 s)
+        it = intro.upper().replace("{", "(").replace("}", ")")
+        rows.append(f"Dialogue: 2,{_ass_time(0)},{_ass_time(intro_end)},Intro,,0,0,0,,{{\\fad(0,250)}}{it}")
     if banner and banner_end:
         b = banner.upper().replace("{", "(").replace("}", ")")
         rows.append(f"Dialogue: 1,{_ass_time(0)},{_ass_time(banner_end)},Banner,,0,0,0,,{b}")
@@ -279,10 +283,14 @@ def find_cuts(swords, transcript, total, max_pause=1.0, keep_pause=0.45, cut_ret
                 j += 1
             run = [t_norm[k] for k in range(i, j + 1) if t_norm[k]]
             prev_s = max([t_to_s[k] for k in t_to_s if k < i], default=-1)
+            next_s = min([t_to_s[k] for k in t_to_s if k > j], default=len(s_norm))
+            # A retake is EXTRA speech: the script carries on right where it left off (next_s == prev_s + 1).
+            # If script words were skipped, the transcript just misheard them: keep that audio.
+            substitution = next_s - prev_s > 1
             window = set(s_norm[max(0, prev_s - 15):prev_s + 25])
             near = sum(1 for w in run if w in window) / max(len(run), 1)
             is_filler = all(w in FILLERS for w in run)
-            if is_filler or (len(run) >= 2 and near >= 0.6):
+            if is_filler or (len(run) >= 2 and near >= 0.6 and not substitution):
                 start = transcript[i]["start"]
                 end = transcript[j + 1]["start"] - 0.06 if j + 1 < n else transcript[j]["end"]
                 if end - start > 0.15:

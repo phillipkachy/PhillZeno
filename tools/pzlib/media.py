@@ -29,7 +29,7 @@ def run(cmd, cwd=None, what="ffmpeg"):
 
 
 def ffmpeg(*args, cwd=None):
-    return run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", *map(str, args)], cwd=cwd)
+    return run(["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-y", *map(str, args)], cwd=cwd)
 
 
 def duration(path):
@@ -63,9 +63,15 @@ def find_voice(proj):
 
 
 def loudnorm(src, dst, target, extra_filters=""):
-    """Two-pass loudness normalisation to `target` LUFS (accurate, no pumping)."""
-    pre = (extra_filters + ",") if extra_filters else ""
-    r = subprocess.run(["ffmpeg", "-hide_banner", "-y", "-i", str(src), "-af",
+    """Two-pass loudness normalisation to `target` LUFS (accurate, no pumping).
+    Cleanup filters run in their own pass first: chaining them with loudnorm in one ffmpeg
+    graph can hang ffmpeg 6.x at end-of-file (seen with silenceremove+areverse)."""
+    if extra_filters:
+        filtered = Path(dst).with_name(Path(dst).stem + "_filtered.wav")
+        ffmpeg("-i", src, "-af", extra_filters, filtered)
+        src, extra_filters = filtered, ""
+    pre = ""
+    r = subprocess.run(["ffmpeg", "-nostdin", "-hide_banner", "-y", "-i", str(src), "-af",
                         f"{pre}loudnorm=I={target}:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"],
                        capture_output=True, text=True, encoding="utf-8", errors="replace")
     m = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", r.stderr, re.S)

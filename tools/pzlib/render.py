@@ -117,7 +117,7 @@ class Clip:
     def open(self, w, h, cfg, fps):
         self.w, self.h = w, h
         self.proc = subprocess.Popen(
-            ["ffmpeg", "-hide_banner", "-loglevel", "error", "-stream_loop", "-1",
+            ["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-stream_loop", "-1",
              "-ss", f"{self.offset:.3f}", "-i", str(self.path),
              "-t", f"{self.end - self.start + 1:.3f}", "-an",
              "-vf", f"scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h},fps={fps},format=rgb24",
@@ -141,7 +141,7 @@ class Clip:
 def encode(segments, audio, out, total, cfg, w, h, fps, preset, crf, subs=None, workdir=None, label="video"):
     """Pipe every frame into ffmpeg (x264) together with the finished audio."""
     vc = cfg["video"]
-    cmd = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+    cmd = ["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-y",
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{w}x{h}", "-r", str(fps), "-i", "-",
            "-i", str(Path(audio).resolve())]
     if subs:

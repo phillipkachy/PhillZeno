@@ -9,6 +9,7 @@ Upload each as a Short. Title and description are ready to paste.
 **Description:**
 
 ```
+If your Earth crashes into another one, you have one way to survive. Destroy theirs. Here's how it works.
 In the comics, two universes collide and there's only one way to survive: destroy the other Earth.
 Here's what an Incursion is, and why it matters for Avengers: Doomsday. Full breakdown on my channel.
 
@@ -24,6 +25,7 @@ _Starts with:_ "In Hickman's comics, the multiverse starts dying."
 **Description:**
 
 ```
+You know Marvel's smartest heroes wiped Captain America's memory? Here's why.
 Marvel's smartest heroes wiped Steve Rogers' mind because they knew he'd stop them.
 From Hickman's New Avengers, the story Avengers: Doomsday is pulling from. Full video on my channel.
 
@@ -39,6 +41,7 @@ _Starts with:_ "Now Captain America was in the room early on."
 **Description:**
 
 ```
+Everyone thinks Thanos is the scariest thing in Marvel. In 2015 Doctor Doom killed the beings who killed gods.
 The Beyonders were killing the multiverse. Doctor Doom killed them and took their power.
 This is how God Emperor Doom was born (Time Runs Out / Secret Wars). Full video on my channel.
 
@@ -54,6 +57,7 @@ _Starts with:_ "Meanwhile, the multiverse keeps collapsing."
 **Description:**
 
 ```
+You think Doctor Doom just wants power? In Secret Wars he took Reed Richards' family.
 In Secret Wars, Doom rules Battleworld, married to Sue Storm and raising Reed's kids as his own.
 And nobody remembers. Full breakdown of the comic behind Avengers: Doomsday on my channel.
 
@@ -69,6 +73,7 @@ _Starts with:_ "Doom rules it all as God Emperor."
 **Description:**
 
 ```
+Doctor Doom became the only god left in 2015, and you'd never guess what beat him. One question.
 Spoilers for Secret Wars (2015): the ending isn't a punch, it's a question.
 Full video on the comic behind Avengers: Doomsday on my channel.
 

@@ -56,7 +56,7 @@ def die(msg):
 def ffmpeg(*args):
     if not shutil.which("ffmpeg"):
         die("ffmpeg isn't installed. Run: python tools/check_machine.py  (it shows how to get it)")
-    r = subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", *args],
+    r = subprocess.run(["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-y", *args],
                        capture_output=True, text=True)
     if r.returncode != 0:
         die("ffmpeg had a problem:\n" + r.stderr[-800:])
