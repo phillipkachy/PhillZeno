@@ -31,7 +31,7 @@
 
 ```
 Doctor Doom once stole the power of a god, and that's only #2 on this list.
-Before Robert Downey Jr. plays him in Avengers: Doomsday, here are Doom's 7 most powerful comic book moments.
+Here are Doom's 7 most powerful comic book moments, ranked, before RDJ plays him in Avengers: Doomsday.
 
 The movies haven't been kind to Doctor Doom. The comics are a different story. I'm ranking Doom's 7 most powerful moments, from stealing the Power Cosmic from the Silver Surfer to conquering the whole planet with the Purple Man, taking on Mephisto in Triumph and Torment, becoming Sorcerer Supreme, stealing the Beyonder's power in the original Secret Wars, and finally becoming God Emperor Doom in Secret Wars (2015).
 
@@ -57,7 +57,7 @@ Which moment would you rank #1? Let me know in the comments.
 ## 4. Tags (also in tags.txt)
 
 ```
-doctor doom, doctor doom most powerful moments, doctor doom ranked, doctor doom explained, rdj doctor doom, avengers doomsday, god emperor doom, secret wars 2015, secret wars 1984 beyonder, triumph and torment, doomwar, one world under doom, doctor doom sorcerer supreme, marvel comics explained
+doctor doom, doctor doom most powerful moments, doctor doom ranked, doctor doom explained, rdj doctor doom, avengers doomsday, god emperor doom, secret wars 2015, secret wars 1984 beyonder, triumph and torment, doomwar, one world under doom, doctor doom sorcerer supreme, dr doom
 ```
 
 ## 5. Pinned comment (post it, then pin it)

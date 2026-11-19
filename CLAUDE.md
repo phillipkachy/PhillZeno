@@ -19,6 +19,7 @@ Read this first every session. It's the full brief plus where we are. Keep it up
 8. Commercial use matters: the channel is (or will be) monetized, so check model **licenses** allow commercial use.
 
 ## Workflow rules
+- **Use the owner's yt- skills (owner rule, 2026-11-19).** Every video goes through: `yt-edit` (cut list from the transcript), `yt-package` (title + thumbnail, `title.py`), `yt-chapters` (`chapters.py` check), `yt-seo` (first two description lines must contain the words of the 3 target queries; tags ≤15 for disambiguation), `yt-shorts` (spans that survive alone, a NEW first line scored with `hookscore.py`, on-screen text for the first 2 s, a loop point). Channel level: `yt-plan` (schedule), `yt-viral` (niche research), `yt-audit`. After publishing: `yt-retention` (needs a Studio retention export), `yt-comment`. Skills live under ~/.claude/skills/synced/…/yt-*/ and share Phill's `voice.md`. hookscore is calibrated on creator-advice hooks, so superhero hooks score "WEAK" at best ~55; use it comparatively.
 - **GitHub (fixed 2026-11-04):** repo `phillipkachy/PhillZeno`. The Claude GitHub App is installed with access to all repos. `main` is the default branch. Claude works on its `claude/...` branch and pushes after every change. To update `main`, open a pull request the owner merges (no direct pushes to main without asking).
 - Go phase by phase; stop at every CHECKPOINT and wait for the go-ahead.
 - After each phase: 3–5 line summary (what works, exact command, what the owner does next).

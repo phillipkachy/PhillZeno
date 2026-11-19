@@ -1,27 +1,39 @@
 # Shorts for the Doom ranking video. from/to = first/last words, copied from script.md.
+# hook = NEW first line for viewers who haven't seen the long video (yt-shorts rule), scored with hookscore.py.
+# first_2s_text = on-screen text for the first 2 seconds (different words from the hook).
 shorts:
-  - from: "Alright, number seven. Doom steals the Power Cosmic."
-    to: "He lost on a technicality."
-    banner: "Doom stole the Power Cosmic"
-    title: "Doctor Doom Stole the Silver Surfer's Power"
-    description: "In 1966 Doom tricked the Silver Surfer and took the Power Cosmic, and only lost on a technicality. Full Doom ranking on my channel."
-  - from: "Alright, number six. Doomwar."
-    to: "more like damage control."
-    banner: "Doom vs Wakanda"
-    title: "Doctor Doom Made Black Panther Destroy Wakanda's Vibranium"
-    description: "In Doomwar, beating Doom cost Wakanda its greatest resource. Full Doom ranking on my channel."
-  - from: "Number five. Emperor Doom."
-    to: "he doesn't even crack the top three."
-    banner: "Doom ruled the world"
-    title: "Doctor Doom Conquered the Entire Planet"
-    description: "Emperor Doom (1987): Doom mind-controls the whole world, and the Purple Man can't control him. Full ranking on my channel."
-  - from: "Alright, number three. Doom becomes Sorcerer Supreme."
-    to: "working better with Doom in charge."
-    banner: "Doom: Sorcerer Supreme"
-    title: "Doctor Doom Tricked Doctor Strange"
-    description: "Blood Hunt and One World Under Doom: Doom becomes Sorcerer Supreme and Emperor of the World. Full ranking on my channel."
-  - from: "Number two. In the original Secret Wars"
-    to: "The only person who can really beat Doom is Doom himself."
-    banner: "Doom stole a god's power"
-    title: "Doctor Doom Stole the Beyonder's Power"
-    description: "Secret Wars (1984): Doom becomes basically a god, and only Doom can beat Doom. Full ranking on my channel."
+- from: Alright, number seven. Doom steals the Power Cosmic.
+  to: He lost on a technicality.
+  banner: Doom stole the Power Cosmic
+  title: Doctor Doom Stole the Silver Surfer's Power
+  description: In 1966 Doom tricked the Silver Surfer and took the Power Cosmic, and only lost on a technicality. Full Doom ranking on my channel.
+  hook: In 1966 Doctor Doom had zero powers, so he stole the Silver Surfer's. Here's why he still lost.
+  first_2s_text: Zero powers
+- from: Alright, number six. Doomwar.
+  to: more like damage control.
+  banner: Doom vs Wakanda
+  title: Doctor Doom Made Black Panther Destroy Wakanda's Vibranium
+  description: In Doomwar, beating Doom cost Wakanda its greatest resource. Full Doom ranking on my channel.
+  hook: Your wife or your country's vibranium. That's the choice Doctor Doom gave Black Panther, and here's what he picked.
+  first_2s_text: Impossible choice
+- from: Number five. Emperor Doom.
+  to: he doesn't even crack the top three.
+  banner: Doom ruled the world
+  title: Doctor Doom Conquered the Entire Planet
+  description: 'Emperor Doom (1987): Doom mind-controls the whole world, and the Purple Man can''t control him. Full ranking on my channel.'
+  hook: In 1987, Doctor Doom conquered the entire planet, Avengers included.
+  first_2s_text: Doom won
+- from: Alright, number three. Doom becomes Sorcerer Supreme.
+  to: working better with Doom in charge.
+  banner: 'Doom: Sorcerer Supreme'
+  title: Doctor Doom Tricked Doctor Strange
+  description: 'Blood Hunt and One World Under Doom: Doom becomes Sorcerer Supreme and Emperor of the World. Full ranking on my channel.'
+  hook: You'd never hand Doctor Doom the title of Sorcerer Supreme. Doctor Strange did, and here's what happened.
+  first_2s_text: Big mistake
+- from: Number two. In the original Secret Wars
+  to: The only person who can really beat Doom is Doom himself.
+  banner: Doom stole a god's power
+  title: Doctor Doom Stole the Beyonder's Power
+  description: 'Secret Wars (1984): Doom becomes basically a god, and only Doom can beat Doom. Full ranking on my channel.'
+  hook: In 1984 Doctor Doom stole the power of a god. The only thing that beat him was Doom himself.
+  first_2s_text: Godlike Doom

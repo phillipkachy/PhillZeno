@@ -30,8 +30,8 @@
 ## 3. Description (also in description.txt)
 
 ```
-In the comics, Doctor Doom kills the gods and rebuilds reality as God Emperor.
-And Avengers: Doomsday is pulling from that exact story. Here's the whole thing before December 18.
+Avengers: Doomsday is pulling from Secret Wars (2015), the comic where Doctor Doom kills the gods and makes himself God Emperor.
+Here's the whole story explained before December 18.
 
 Everyone's talking about the Doomsday cast, but almost nobody's talking about the comic Marvel is actually drawing from. Kevin Feige pointed at Secret Wars ("kinda"), and the real story starts in Jonathan Hickman's New Avengers and Time Runs Out. I walk you through Incursions, the Illuminati's worst decision, how Doom killed the Beyonders and became God Emperor of Battleworld, and the Reed vs. Doom ending. Then I connect it to the trailer: the Sentinels, "stolen lives", and why RDJ wearing Doom's mask might be the whole point.
 
@@ -77,7 +77,7 @@ https://bookriot.com/2016/01/18/beginning-doom-secret-wars-hubris/
 ## 4. Tags (also in tags.txt)
 
 ```
-avengers doomsday, avengers doomsday explained, secret wars comic explained, secret wars 2015, doctor doom, god emperor doom, rdj doctor doom, avengers doomsday trailer breakdown, time runs out, jonathan hickman avengers, marvel incursions explained, illuminati marvel, battleworld, avengers secret wars
+avengers doomsday, avengers doomsday explained, secret wars comic explained, secret wars 2015, doctor doom, god emperor doom, rdj doctor doom, avengers doomsday trailer breakdown, time runs out, jonathan hickman avengers, marvel incursions explained, dr doom, secret wars explained, avengers secret wars
 ```
 
 ## 5. Pinned comment (post it, then pin it)
